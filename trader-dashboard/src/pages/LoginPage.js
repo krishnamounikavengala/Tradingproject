@@ -355,7 +355,7 @@ const LoginPage = () => {
             {/* Logo Added Here */}
             <div className="flex justify-center mb-4">
               <img 
-                src="/Logo2.jpg" 
+                src="/Logonew.png" 
                 alt="Vunathi Capital Logo" 
                 className="w-16 h-16 rounded-full border-2 border-blue-500/30 shadow-lg" 
               />

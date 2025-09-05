@@ -1,4 +1,6 @@
 
+
+
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiHome, FiUser, FiDollarSign, FiTrendingUp, FiGrid, FiLogOut, FiMenu, FiX } from "react-icons/fi";
@@ -59,14 +61,14 @@ export default function Navbar() {
         transition={{ type: "spring", stiffness: 100 }}
       >
         <div className="navbar-glass">
-          {/* Logo */}
+          {/* Logo and Text */}
           <motion.div
             className="logo-container"
             onClick={() => navigate('/')}
             whileHover={{ scale: 1.05 }}
           >
-            <img src="/Logo2.jpg" alt="Vunathi Capital Logo" className="logo-image" />
-            {/* {!isMobile && <span className="logo-text">Vunathi Capital</span>} */}
+            <img src="/Logonew.png" alt="Vunathi Capital Logo" className="logo-image" />
+            <span className="logo-text">Vunathi Capital</span>
           </motion.div>
 
           {/* Mobile menu button */}
@@ -140,9 +142,9 @@ export default function Navbar() {
                 transition={{ type: "spring", damping: 25, stiffness: 150 }}
               >
                 <div className="mobile-menu-content">
-                  {/* Mobile Menu Header with Logo */}
+                  {/* Mobile Menu Header with Logo and Text */}
                   <div className="mobile-menu-header">
-                    <img src="/Logo2.jpg" alt="Vunathi Capital Logo" className="logo-image" />
+                    <img src="/Logonew.png" alt="Vunathi Capital Logo" className="logo-image" />
                     <span className="logo-text">Vunathi Capital</span>
                   </div>
 
@@ -167,13 +169,14 @@ export default function Navbar() {
                       )}
                     </motion.div>
                   ))}
+                  {/* Logout button below Live Trades */}
                   <motion.div
                     className="mobile-nav-item logout-button"
                     onClick={handleLogout}
                     whileTap={{ scale: 0.95 }}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 * navItems.length }}
+                    transition={{ delay: 0.1 * (navItems.length + 1) }}
                   >
                     <span className="mobile-nav-icon"><FiLogOut /></span>
                     <span className="mobile-nav-label">Logout</span>
@@ -190,9 +193,9 @@ export default function Navbar() {
             justify-content: center;
             width: 100%;
             position: fixed;
-            top: 1rem; /* Added some spacing from top */
+            top: 1rem;
             z-index: 1000;
-            padding: 0 1rem; /* Added horizontal padding */
+            padding: 0 1rem;
           }
           .navbar-glass {
             display: flex;
@@ -211,14 +214,14 @@ export default function Navbar() {
           .logo-container {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             cursor: pointer;
             flex-shrink: 0;
           }
 
           .logo-image {
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.2);
           }
@@ -306,7 +309,7 @@ export default function Navbar() {
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.6);
-            z-index: 1001; /* Higher than navbar */
+            z-index: 1001;
           }
 
           /* Mobile menu */
@@ -364,7 +367,7 @@ export default function Navbar() {
           }
           .mobile-nav-indicator {
             position: absolute;
-            left: -1rem; /* Adjust to be outside the padding */
+            left: -1rem;
             top: 15%;
             bottom: 15%;
             width: 4px;
@@ -372,8 +375,12 @@ export default function Navbar() {
             border-radius: 0 4px 4px 0;
           }
           .mobile-nav-item.logout-button {
-            margin-top: auto;
             color: #fca5a5;
+            margin-top: 0.5rem; /* Ensures spacing after Live Trades */
+          }
+          .mobile-nav-item.logout-button:hover {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
           }
 
           /* Responsive styles */
@@ -381,10 +388,24 @@ export default function Navbar() {
             .desktop-nav-items {
               display: none;
             }
+            .navbar-glass {
+              justify-content: space-between;
+            }
+            .logo-container {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+            }
+            .logo-text {
+              display: block;
+            }
           }
 
           @media (min-width: 768px) {
             .mobile-menu-button {
+              display: none;
+            }
+            .logo-text {
               display: none;
             }
           }

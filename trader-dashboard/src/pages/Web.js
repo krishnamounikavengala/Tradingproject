@@ -1,1030 +1,3126 @@
 
 
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+// import React, { useState, useEffect, useRef } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { motion } from 'framer-motion';
+// import { FaHandshake, FaUsers, FaChartLine, FaShieldAlt, FaLightbulb, FaRobot, FaGlobe, FaMobileAlt, FaPhoneSlash, FaCommentSlash, FaBan, FaUserTie, FaLock, FaGraduationCap } from 'react-icons/fa';
 
-// Floating 3D Cards Component
-const FloatingCard3D = ({ children, className = "" }) => {
-  return (
-    <motion.div
-      className={`bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:p-6 shadow-2xl ${className}`}
-      whileHover={{
-        scale: 1.05,
-        rotateY: 5,
-        rotateX: -2,
-        transition: { duration: 0.3 },
-      }}
-      style={{
-        transformStyle: "preserve-3d",
-        perspective: 1000,
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-};
+// const FeaturesSection = ({ featureCards }) => {
+//   const [currentCard, setCurrentCard] = useState(0);
+//   const carouselRef = useRef(null);
+//   const intervalRef = useRef(null);
 
-// 3D Button Component
-const Button3D = ({ children, onClick, className = "" }) => {
-  return (
-    <motion.button
-      onClick={onClick}
-      className={`relative px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-bold text-white text-sm sm:text-base ${className}`}
-      whileHover={{ y: -3 }}
-      whileTap={{ y: 0 }}
-      style={{
-        background: "linear-gradient(145deg, #0d9488, #10b981)",
-        boxShadow: "0 8px 0 #047857, 0 12px 20px rgba(0, 0, 0, 0.15)",
-        transformStyle: "preserve-3d",
-      }}
-    >
-      {children}
-      <span className="absolute inset-0 rounded-xl bg-black opacity-0 transition-opacity hover:opacity-10"></span>
-    </motion.button>
-  );
-};
+//   // Start auto-rotation
+//   useEffect(() => {
+//     const startAutoRotation = () => {
+//       if (!intervalRef.current) {
+//         intervalRef.current = setInterval(() => {
+//           setCurrentCard((prev) => (prev + 1) % featureCards.length);
+//         }, 1000); // Rotate every 1 seconds
+//       }
+//     };
+//     const stopAutoRotation = () => {
+//       if (intervalRef.current) {
+//         clearInterval(intervalRef.current);
+//         intervalRef.current = null;
+//       }
+//     };
+//     startAutoRotation();
+//     return () => stopAutoRotation();
+//   }, []);
 
-// Animated Background Component
-const AnimatedBackground = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden -z-10">
-      <div className="absolute inset-0 bg-[#151f31] z-0"></div>
-      <div
-        className="absolute inset-0 z-0 opacity-10"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      ></div>
-      {[...Array(30)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-gradient-to-br from-emerald-400/30 to-teal-500/30 opacity-40"
-          style={{
-            width: Math.random() * 100 + 30,
-            height: Math.random() * 100 + 30,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            x: [0, Math.random() * 30 - 15, 0],
-            rotate: [0, Math.random() * 360],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+//   // Handle mouse enter to stop rotation
+//   const handleMouseEnter = () => {
+//     if (intervalRef.current) {
+//       clearInterval(intervalRef.current);
+//       intervalRef.current = null;
+//     }
+//   };
 
-// Investment Product Icons
-const InvestmentIcon = ({ icon: Icon, name, description }) => {
-  return (
-    <motion.div
-      className="group relative bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 hover:border-emerald-400/30 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
-      whileHover={{
-        y: -10,
-        scale: 1.02,
-        rotateY: 5,
-      }}
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      <div className="flex flex-col items-center text-center">
-        <div className="mb-4 p-3 bg-gradient-to-br from-emerald-400/20 to-teal-500/20 rounded-xl">
-          <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
-        </div>
-        <h3 className="font-bold text-base sm:text-lg text-white mb-2">{name}</h3>
-        <p className="text-xs sm:text-sm text-gray-200">{description}</p>
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    </motion.div>
-  );
-};
+//   // Handle mouse leave to resume rotation
+//   const handleMouseLeave = () => {
+//     if (!intervalRef.current) {
+//       intervalRef.current = setInterval(() => {
+//         setCurrentCard((prev) => (prev + 1) % featureCards.length);
+//       }, 1000);
+//     }
+//   };
 
-// Card Carousel Component
-const CardCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const cards = [
-    {
-      title: "Track Your Stocks",
-      description: "Monitor your investments with real-time profit/loss updates",
-      icon: "📊",
-      color: "bg-gradient-to-br from-emerald-500/90 to-teal-600/90",
-    },
-    {
-      title: "Smart Portfolio",
-      description: "AI-driven suggestions to optimize your stock picks",
-      icon: "🤖",
-      color: "bg-gradient-to-br from-purple-500/90 to-pink-600/90",
-    },
-    {
-      title: "Secure Investments",
-      description: "Bank-level security for all your transactions",
-      icon: "🔒",
-      color: "bg-gradient-to-br from-amber-500/90 to-orange-600/90",
-    },
-    {
-      title: "Market Trends",
-      description: "Stay updated with the latest stock market trends",
-      icon: "📈",
-      color: "bg-gradient-to-br from-red-500/90 to-rose-600/90",
-    },
-  ];
+//   return (
+//     <section id="features-section" style={{
+//       width: '100%',
+//       padding: '1rem 0',
+//       margin: '1rem 0',
+//       textAlign: 'center'
+//     }}>
+//       <h2 style={{
+//         fontSize: '3.5rem',
+//         color: '#e0e0e0',
+//         lineHeight: '1.2',
+//         marginBottom: '1.5rem',
+//         fontWeight: '800'
+//       }}>
+//         Our <span style={{ color: '#1e90ff' }}>Features</span>
+//       </h2>
+//       <div className="carousel-container" style={{
+//         position: 'relative',
+//         height: '500px',
+//         width: '100%',
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         perspective: '1200px',
+//         overflow: 'hidden'
+//       }} ref={carouselRef}>
+//         {featureCards.map((card, index) => {
+//           const totalCards = featureCards.length;
+//           const position = (index - currentCard + totalCards) % totalCards;
+//           let translateZ, translateX, rotateY, opacity, scale;
+//           if (position === 0) {
+//             translateZ = 0;
+//             translateX = 0;
+//             rotateY = 0;
+//             opacity = 1;
+//             scale = 1;
+//           } else if (position === 1 || position === totalCards - 1) {
+//             translateZ = -150;
+//             translateX = position === 1 ? 250 : -250;
+//             rotateY = position === 1 ? -30 : 30;
+//             opacity = 0.8;
+//             scale = 0.9;
+//           } else if (position === 2 || position === totalCards - 2) {
+//             translateZ = -300;
+//             translateX = position === 2 ? 400 : -400;
+//             rotateY = position === 2 ? -45 : 45;
+//             opacity = 0.5;
+//             scale = 0.8;
+//           } else {
+//             translateZ = -500;
+//             translateX = position < totalCards / 2 ? 600 : -600;
+//             rotateY = position < totalCards / 2 ? -60 : 60;
+//             opacity = 0;
+//             scale = 0.7;
+//           }
+//           return (
+//             <div
+//               key={index}
+//               className="carousel-card"
+//               style={{
+//                 position: 'absolute',
+//                 width: '350px',
+//                 height: '420px',
+//                 background: 'linear-gradient(145deg, rgba(30, 35, 50, 0.9), rgba(20, 25, 40, 0.9))',
+//                 borderRadius: '20px',
+//                 padding: '2.5rem',
+//                 display: 'flex',
+//                 flexDirection: 'column',
+//                 alignItems: 'center',
+//                 justifyContent: 'center',
+//                 boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+//                 transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+//                 opacity: opacity,
+//                 transition: 'transform 0.7s cubic-bezier(0.17, 0.67, 0.83, 0.67), opacity 0.7s ease',
+//                 zIndex: 10 - Math.abs(position),
+//                 cursor: 'pointer',
+//                 backfaceVisibility: 'hidden',
+//                 border: '1px solid rgba(76, 201, 240, 0.2)'
+//               }}
+//               onClick={() => setCurrentCard(index)}
+//               onMouseEnter={handleMouseEnter}
+//               onMouseLeave={handleMouseLeave}
+//             >
+//               <div style={{
+//                 width: '80px',
+//                 height: '80px',
+//                 borderRadius: '50%',
+//                 background: 'linear-gradient(135deg, #4361ee, #4cc9f0)',
+//                 display: 'flex',
+//                 alignItems: 'center',
+//                 justifyContent: 'center',
+//                 marginBottom: '2rem',
+//                 color: 'white',
+//                 boxShadow: '0 0 20px rgba(76, 201, 240, 0.5)'
+//               }}>
+//                 {typeof card.icon === 'string' ? (
+//                   <span style={{ fontSize: '2rem' }}>{card.icon}</span>
+//                 ) : (
+//                   <card.icon size={32} />
+//                 )}
+//               </div>
+//               <h3 style={{
+//                 fontSize: '1.8rem',
+//                 fontWeight: '700',
+//                 color: '#e0e0e0',
+//                 marginBottom: '1.5rem',
+//                 textAlign: 'center'
+//               }}>
+//                 {card.title}
+//               </h3>
+//               <p style={{
+//                 color: '#a0a0b0',
+//                 lineHeight: '1.6',
+//                 fontSize: '1.1rem',
+//                 textAlign: 'center'
+//               }}>
+//                 {card.text}
+//               </p>
+//             </div>
+//           );
+//         })}
+//       </div>
+//       <div style={{
+//         display: 'flex',
+//         justifyContent: 'center',
+//         marginTop: '2rem',
+//         gap: '0.8rem'
+//       }}>
+//         {featureCards.map((_, index) => (
+//           <button
+//             key={index}
+//             onClick={() => setCurrentCard(index)}
+//             style={{
+//               width: '12px',
+//               height: '12px',
+//               borderRadius: '50%',
+//               border: 'none',
+//               background: currentCard === index ? '#1e90ff' : 'rgba(30, 144, 255, 0.3)',
+//               cursor: 'pointer',
+//               transition: 'all 0.3s ease'
+//             }}
+//           />
+//         ))}
+//       </div>
+//     </section>
+//   );
+// };
 
+// const VunathiCapital = () => {
+//   const navigate = useNavigate();
+//   const carouselRef = useRef(null);
+//   const [stats, setStats] = useState({
+//     portfolioValue: 18700000000,
+//     activeUsers: 543000,
+//     avgReturn: 11.2,
+//     tradingVolume: 2400000000
+//   });
+//   const [isScrolled, setIsScrolled] = useState(false);
+//   const [typedText, setTypedText] = useState('');
+//   const featureCards = [
+//     {
+//       icon: FaShieldAlt,
+//       title: 'Secure Platform',
+//       text: 'Your data and investments are protected with bank-level security and encryption protocols.'
+//     },
+//     {
+//       icon: FaLightbulb,
+//       title: 'Smart Insights',
+//       text: 'AI-powered investment recommendations and personalized portfolio suggestions based on your goals.'
+//     },
+//     {
+//       icon: FaRobot,
+//       title: 'AI Algorithms',
+//       text: 'Our sophisticated algorithms continuously analyze market trends to optimize your investment strategy.'
+//     },
+//     {
+//       icon: FaGlobe,
+//       title: 'Global Diversification',
+//       text: 'Diversify your portfolio across global markets to maximize returns and minimize risk.'
+//     },
+//     {
+//       icon: FaMobileAlt,
+//       title: 'Mobile Access',
+//       text: 'Manage your investments on the go with our intuitive mobile application.'
+//     }
+//   ];
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setStats(prev => ({
+//         portfolioValue: prev.portfolioValue + Math.random() * 1000000 - 500000,
+//         activeUsers: prev.activeUsers + Math.random() * 100 - 50,
+//         avgReturn: Math.max(5, prev.avgReturn + (Math.random() * 0.2 - 0.1)),
+//         tradingVolume: prev.tradingVolume + Math.random() * 500000 - 250000
+//       }));
+//     }, 5000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       setIsScrolled(window.scrollY > 50);
+//     };
+//     window.addEventListener('scroll', handleScroll);
+//     return () => window.removeEventListener('scroll', handleScroll);
+//   }, []);
+
+//   useEffect(() => {
+//     const text = 'built with love for Indians who love to invest & trade';
+//     const typeText = () => {
+//       let i = 0;
+//       setTypedText('');
+//       const typingInterval = setInterval(() => {
+//         setTypedText(text.slice(0, i + 1));
+//         i++;
+//         if (i === text.length) {
+//           clearInterval(typingInterval);
+//           setTimeout(() => {
+//             typeText();
+//           }, 1000);
+//         }
+//       }, 80);
+//     };
+//     typeText();
+//     return () => clearInterval();
+//   }, []);
+
+//   const formatNumber = (num) => {
+//     if (num >= 1000000000) return `$${(num / 1000000000).toFixed(1)}B`;
+//     if (num >= 1000000) return `$${(num / 1000000).toFixed(1)}M`;
+//     if (num >= 1000) return `$${(num / 1000).toFixed(1)}K`;
+//     return `$${num}`;
+//   };
+
+//   const handleGetStarted = () => {
+//     document.getElementById('signup-section').scrollIntoView({ behavior: 'smooth' });
+//   };
+
+//   const handleLearnMore = () => {
+//     document.getElementById('features-section').scrollIntoView({ behavior: 'smooth' });
+//   };
+
+//   const handleLogin = () => {
+//     navigate('/login');
+//   };
+
+//   return (
+//     <div style={{
+//       background: 'linear-gradient(135deg, #0a0e17 0%, #1a2639 100%)',
+//       color: '#e0e0e0',
+//       minHeight: '100vh',
+//       display: 'flex',
+//       flexDirection: 'column',
+//       padding: '0',
+//       fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+//       position: 'relative',
+//       overflow: 'hidden'
+//     }}>
+//       <style jsx>{`
+//         @keyframes orbit-1 { from { transform: rotateZ(0deg); } to { transform: rotateZ(360deg); } }
+//         @keyframes orbit-2 { from { transform: rotateZ(0deg); } to { transform: rotateZ(-360deg); } }
+//         @keyframes orbit-3 { from { transform: rotateZ(0deg); } to { transform: rotateZ(360deg); } }
+//         @keyframes orbit-4 { from { transform: rotateZ(0deg); } to { transform: rotateZ(-360deg); } }
+//         @keyframes float { 0%,100%{transform:translateY(0px) rotateY(0deg);}50%{transform:translateY(-10px) rotateY(180deg);} }
+//         @keyframes pulse { 0%,100%{opacity:0.3; transform:scale(1);}50%{opacity:0.6; transform:scale(1.1);} }
+//         @keyframes glow { 0%,100%{box-shadow:0 0 10px rgba(76, 201, 240, 0.5);}50%{box-shadow:0 0 20px rgba(76, 201, 240, 0.8),0 0 30px rgba(76, 201, 240, 0.4);} }
+//         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+//         @keyframes heartbeat { 0% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.3); } 70% { transform: scale(1); } }
+//         @media (max-width: 768px) {
+//           header {
+//             padding: 1rem 1.5rem !important;
+//           }
+//           header > div {
+//             fontSize: 1.2rem !important;
+//           }
+//           main {
+//             padding: 0 1.5rem !important;
+//           }
+//           section {
+//             flex-direction: column !important;
+//           }
+//           section > div:first-child {
+//             padding-right: 0 !important;
+//             text-align: center;
+//           }
+//           section > div:last-child {
+//             height: 300px !important;
+//             margin-top: 2rem;
+//           }
+//           h1 {
+//             font-size: 2.5rem !important;
+//           }
+//           p {
+//             font-size: 1rem !important;
+//             margin-bottom: 1.5rem !important;
+//           }
+//           button {
+//             padding: 0.5rem 1.2rem !important;
+//             font-size: 1rem !important;
+//           }
+//           div[style*="gridTemplateColumns"] {
+//             grid-template-columns: 1fr !important;
+//           }
+//           div[style*="flexWrap"] {
+//             gap: 1.5rem !important;
+//           }
+//           div[style*="flex:1"][style*="minWidth:280px"] {
+//             padding: 1.5rem !important;
+//           }
+//           section[id="signup-section"] {
+//             padding: 2.5rem 1.5rem !important;
+//           }
+//           section[id="signup-section"] h2 {
+//             font-size: 2rem !important;
+//           }
+//           footer {
+//             padding: 2rem 1.5rem !important;
+//           }
+//           footer > div > div {
+//             font-size: 1.5rem !important;
+//           }
+//           #about .container {
+//             flex-direction: column !important;
+//             gap: 2rem !important;
+//           }
+//           #about .md\:w-1\/2 {
+//             width: 100% !important;
+//           }
+//           #about h2 {
+//             font-size: 3rem !important;
+//           }
+//           #about p {
+//             font-size: 0.95rem !important;
+//             text-align: center !important;
+//           }
+//           #about .relative.w-96.h-96 {
+//             width: 280px !important;
+//             height: 280px !important;
+//           }
+//           #about .text-9xl {
+//             font-size: 6rem !important;
+//           }
+//           #about .text-8xl {
+//             font-size: 5rem !important;
+//           }
+//           #about .text-6xl {
+//             font-size: 3.5rem !important;
+//           }
+//           .carousel-container {
+//             height: 400px !important;
+//           }
+//           .carousel-card {
+//             width: 280px !important;
+//             height: 350px !important;
+//             padding: 1.5rem !important;
+//           }
+//           #user-first-section {
+//             flex-direction: column-reverse !important;
+//             padding: 1.5rem !important;
+//           }
+//           #user-first-section > div:last-child {
+//             height: 280px !important;
+//             max-width: 100% !important;
+//             overflow: hidden !important;
+//           }
+//           #user-first-section .animation-container {
+//             width: 280px !important;
+//             height: 280px !important;
+//           }
+//         }
+//         @media (max-width: 480px) {
+//           header {
+//             padding: 0.8rem 1rem !important;
+//           }
+//           header > div {
+//             fontSize: 1rem !important;
+//           }
+//           nav button {
+//             padding: 0.4rem 1rem !important;
+//             font-size: 0.8rem !important;
+//           }
+//           main {
+//             padding: 0 1rem !important;
+//           }
+//           h1 {
+//             font-size: 2rem !important;
+//           }
+//           p {
+//             font-size: 0.9rem !important;
+//           }
+//           div[style*="gap:1rem"] button {
+//             padding: 0.5rem 1.2rem !important;
+//             font-size: 0.9rem !important;
+//           }
+//           div[style*="padding:2rem"] {
+//             padding: 1.5rem !important;
+//           }
+//           div[style*="font-size:2.2rem"] {
+//             font-size: 1.8rem !important;
+//           }
+//           section[id="signup-section"] h2 {
+//             font-size: 1.8rem !important;
+//           }
+//           section[id="signup-section"] p {
+//             font-size: 1rem !important;
+//           }
+//           section[id="signup-section"] button {
+//             padding: 0.8rem 2rem !important;
+//             font-size: 1.1rem !important;
+//           }
+//           #about h2 {
+//             font-size: 2.5rem !important;
+//           }
+//           #about .relative.w-96.h-96 {
+//             width: 220px !important;
+//             height: 220px !important;
+//           }
+//           #about .text-9xl {
+//             font-size: 5rem !important;
+//           }
+//           #about .text-8xl {
+//             font-size: 4rem !important;
+//           }
+//           #about .text-6xl {
+//             font-size: 3rem !important;
+//           }
+//           .carousel-container {
+//             height: 350px !important;
+//           }
+//           .carousel-card {
+//             width: 240px !important;
+//             height: 320px !important;
+//             padding: 1.2rem !important;
+//           }
+//           #user-first-section > div:last-child {
+//             height: 240px !important;
+//           }
+//           #user-first-section .animation-container {
+//             width: 240px !important;
+//             height: 240px !important;
+//           }
+//         }
+//       `}</style>
+//       <header style={{
+//         position: 'fixed',
+//         top: 0,
+//         left: 0,
+//         right: 0,
+//         display: 'flex',
+//         justifyContent: 'space-between',
+//         alignItems: 'center',
+//         padding: '1rem 3rem',
+//         background: isScrolled ? 'rgba(10, 14, 23, 0.95)' : 'transparent',
+//         backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+//         borderBottom: isScrolled ? '1px solid rgba(76, 201, 240, 0.1)' : 'none',
+//         zIndex: 1000,
+//         transition: 'all 0.3s ease'
+//       }}>
+//         <h2 style={{
+//           fontSize: '2rem',
+//           color: '#e0e0e0',
+//           lineHeight: '1.2',
+//           margin: 0,
+//           fontWeight: '800'
+//         }}>
+//           <span style={{ color: '#1e90ff' }}>VUNATHI</span> CAPITAL
+//         </h2>
+//         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+//           <button
+//             onClick={handleLogin}
+//             style={{
+//               background: 'linear-gradient(90deg, #4361ee, #4cc9f0)',
+//               color: 'white',
+//               border: 'none',
+//               padding: '0.6rem 1.5rem',
+//               borderRadius: '50px',
+//               fontWeight: '600',
+//               cursor: 'pointer',
+//               transition: 'transform 0.3s, box-shadow 0.3s',
+//               fontSize: '0.9rem'
+//             }} onMouseOver={(e) => {
+//               e.target.style.transform = 'translateY(-2px)';
+//               e.target.style.boxShadow = '0 5px 15px rgba(67, 97, 238, 0.4)';
+//             }} onMouseOut={(e) => {
+//               e.target.style.transform = 'translateY(0)';
+//               e.target.style.boxShadow = 'none';
+//             }}>
+//             LOGIN
+//           </button>
+//         </nav>
+//       </header>
+//       <main style={{
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//         width: '100%',
+//         maxWidth: '100%',
+//         padding: '0 3rem',
+//         marginTop: '8rem',
+//         position: 'relative',
+//         zIndex: 5
+//       }}>
+//         <section style={{
+//           display: 'flex',
+//           flexDirection: 'row',
+//           width: '100%',
+//           gap: '3rem',
+//           marginBottom: '5rem',
+//           padding: '2rem 0'
+//         }}>
+//           <div style={{
+//             flex: '1',
+//             display: 'flex',
+//             flexDirection: 'column',
+//             justifyContent: 'center',
+//             paddingRight: '2rem'
+//           }}>
+//             <h2 style={{
+//               fontSize: '3.5rem',
+//               color: '#e0e0e0',
+//               lineHeight: '1.2',
+//               marginBottom: '1.5rem',
+//               fontWeight: '800'
+//             }}>
+//               Smart <span style={{ color: '#1e90ff' }}>Investments</span> <span style={{ color: '#1e90ff' }}>Exceptional</span> Returns
+//             </h2>
+//             <p style={{
+//               fontSize: '1.4rem',
+//               color: '#a0a0b0',
+//               margin: '0 0 2.5rem',
+//               lineHeight: '1.6'
+//             }}>
+//               We strategically diversify your investments across carefully selected stocks and market indices,
+//               maximizing returns while minimizing risk through our advanced algorithmic approach.
+//             </p>
+//             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+//               <button onClick={handleGetStarted} style={{
+//                 background: 'linear-gradient(90deg, #2a5298, #1e90ff)',
+//                 color: 'white',
+//                 border: 'none',
+//                 padding: '0.6rem 1.5rem',
+//                 fontSize: '1rem',
+//                 fontWeight: '500',
+//                 borderRadius: '8px',
+//                 cursor: 'pointer',
+//                 boxShadow: '0 2px 5px rgba(30, 144, 255, 0.2)',
+//                 transition: 'transform 0.2s, box-shadow 0.2s'
+//               }} onMouseOver={(e) => {
+//                 e.target.style.transform = 'translateY(-1px)';
+//                 e.target.style.boxShadow = '0 4px 10px rgba(30, 144, 255, 0.3)';
+//               }} onMouseOut={(e) => {
+//                 e.target.style.transform = 'translateY(0)';
+//                 e.target.style.boxShadow = '0 2px 5px rgba(30, 144, 255, 0.2)';
+//               }}>
+//                 GET STARTED
+//               </button>
+//               <button onClick={handleLearnMore} style={{
+//                 background: 'transparent',
+//                 color: '#1e90ff',
+//                 border: '2px solid #1e90ff',
+//                 padding: '0.6rem 1.5rem',
+//                 fontSize: '1rem',
+//                 fontWeight: '500',
+//                 borderRadius: '8px',
+//                 cursor: 'pointer',
+//                 transition: 'all 0.2s'
+//               }} onMouseOver={(e) => {
+//                 e.target.style.background = 'rgba(30, 144, 255, 0.1)';
+//                 e.target.style.transform = 'translateY(-1px)';
+//               }} onMouseOut={(e) => {
+//                 e.target.style.background = 'transparent';
+//                 e.target.style.transform = 'translateY(0)';
+//               }}>
+//                 LEARN MORE
+//               </button>
+//             </div>
+//           </div>
+//           <div style={{
+//             flex: '1',
+//             display: 'flex',
+//             alignItems: 'center',
+//             justifyContent: 'center',
+//             position: 'relative'
+//           }}>
+//             <div style={{
+//               position: 'relative',
+//               perspective: '1000px',
+//               transformStyle: 'preserve-3d',
+//               height: '400px',
+//               width: '100%',
+//               display: 'flex',
+//               alignItems: 'center',
+//               justifyContent: 'center'
+//             }}>
+//               {[1, 2, 3, 4].map((ring, index) => {
+//                 const radius = 80 + (index * 60);
+//                 const duration = 15 + (index * 5);
+//                 const opacity = 0.8 - (index * 0.15);
+//                 return (
+//                   <div
+//                     key={ring}
+//                     style={{
+//                       position: 'absolute',
+//                       top: '50%',
+//                       left: '50%',
+//                       border: '1px solid rgba(76, 201, 240, 0.4)',
+//                       borderRadius: '50%',
+//                       width: `${radius * 2}px`,
+//                       height: `${radius * 2}px`,
+//                       marginLeft: `-${radius}px`,
+//                       marginTop: `-${radius}px`,
+//                       opacity: opacity,
+//                       animation: `orbit-${ring} ${duration}s linear infinite`,
+//                       boxShadow: `0 0 20px rgba(6, 182, 212, ${opacity * 0.5}), inset 0 0 20px rgba(6, 182, 212, ${opacity * 0.3})`
+//                     }}
+//                   >
+//                     {[0, 90, 180, 270].slice(0, ring).map((angle, dotIndex) => (
+//                       <div key={dotIndex} style={{
+//                         position: 'absolute',
+//                         width: '8px',
+//                         height: '8px',
+//                         backgroundColor: '#1e90ff',
+//                         borderRadius: '50%',
+//                         top: '50%',
+//                         left: '50%',
+//                         transform: `rotate(${angle}deg) translateX(${radius}px) translateY(-50%)`,
+//                         boxShadow: '0 0 10px rgba(76, 201, 240, 0.8)'
+//                       }} />
+//                     ))}
+//                   </div>
+//                 );
+//               })}
+//               <div style={{
+//                 position: 'relative',
+//                 zIndex: 10,
+//                 display: 'flex',
+//                 flexDirection: 'column',
+//                 alignItems: 'center',
+//                 justifyContent: 'center'
+//               }}>
+//                 <div style={{
+//                   width: '160px',
+//                   height: '160px',
+//                   borderRadius: '50%',
+//                   display: 'flex',
+//                   alignItems: 'center',
+//                   justifyContent: 'center',
+//                   position: 'relative',
+//                   background: `radial-gradient(circle at 30% 30%, #f7931a20, #f7931a10, rgba(0,0,0,0.3))`,
+//                   border: `2px solid #f7931a80`,
+//                   boxShadow: `
+//                     0 0 30px #f7931a60,
+//                     0 0 60px #f7931a40,
+//                     inset 0 0 20px #f7931a20
+//                   `,
+//                   animation: 'float 3s ease-in-out infinite'
+//                 }}>
+//                   <img
+//                     src="/Logo.png"
+//                     alt="Vunathi Capital"
+//                     style={{
+//                       width: '80px',
+//                       height: '80px',
+//                       borderRadius: '50%',
+//                       filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
+//                     }}
+//                   />
+//                   <div style={{
+//                     position: 'absolute',
+//                     top: '20px',
+//                     right: '20px',
+//                     bottom: '20px',
+//                     left: '20px',
+//                     borderRadius: '50%',
+//                     opacity: 0.3,
+//                     background: `radial-gradient(circle, #f7931a, transparent 70%)`,
+//                     animation: 'pulse 2s ease-in-out infinite'
+//                   }} />
+//                 </div>
+//                 <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+//                   <h2 style={{ fontSize: '2rem', fontWeight: 'bold', color: 'white', marginBottom: '0.25rem' }}>
+//                     Algorithmic Excellence
+//                   </h2>
+//                   <p style={{ color: '#a0a0b0', fontSize: '1.1rem' }}>
+//                     AI-powered investment strategies
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </section>
+//         <section id="about" style={{
+//           width: '100%',
+//           marginBottom: '2rem',
+//           padding: '2rem 0',
+//         }}>
+//           <div style={{
+//             maxWidth: '1200px',
+//             margin: '0 auto',
+//             display: 'flex',
+//             flexDirection: 'row',
+//             alignItems: 'center',
+//             gap: '4rem',
+//           }}>
+//             <motion.div
+//               initial={{ opacity: 0, x: -50, rotateY: -10 }}
+//               whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+//               viewport={{ once: true, amount: 0.3 }}
+//               transition={{ duration: 0.8 }}
+//               style={{ flex: '1', display: 'flex', justifyContent: 'center' }}
+//             >
+//               <div style={{
+//                 position: 'relative',
+//                 width: '380px',
+//                 height: '380px',
+//                 borderRadius: '50%',
+//                 display: 'flex',
+//                 alignItems: 'center',
+//                 justifyContent: 'center',
+//                 background: 'rgba(30, 35, 50, 0.4)',
+//                 backdropFilter: 'blur(10px)',
+//                 border: '2px solid rgba(76, 201, 240, 0.3)',
+//                 boxShadow: '0 0 40px rgba(76, 201, 240, 0.2)'
+//               }}>
+//                 <FaHandshake style={{
+//                   color: 'rgba(76, 201, 240, 0.6)',
+//                   fontSize: '8rem',
+//                   position: 'absolute',
+//                   transform: 'rotate(-12deg) translateX(40px) translateY(-40px)'
+//                 }} />
+//                 <FaUsers style={{
+//                   color: 'rgba(76, 201, 240, 0.6)',
+//                   fontSize: '7rem',
+//                   position: 'absolute',
+//                   transform: 'rotate(6deg) translateX(-40px) translateY(40px)'
+//                 }} />
+//                 <div style={{
+//                   position: 'absolute',
+//                   width: '200px',
+//                   height: '200px',
+//                   background: 'rgba(76, 201, 240, 0.15)',
+//                   borderRadius: '50%',
+//                   filter: 'blur(40px)'
+//                 }}></div>
+//                 <div style={{
+//                   position: 'absolute',
+//                   fontSize: '4rem',
+//                   fontWeight: '800',
+//                   color: '#e0e0e0',
+//                   transform: 'rotate(3deg) translateX(20px)',
+//                   textShadow: '0 5px 20px rgba(0,0,0,0.5)'
+//                 }}>TRUST</div>
+//               </div>
+//             </motion.div>
+//             <motion.div
+//               initial={{ opacity: 0, x: 50 }}
+//               whileInView={{ opacity: 1, x: 0 }}
+//               viewport={{ once: true, amount: 0.3 }}
+//               transition={{ duration: 0.8 }}
+//               style={{ flex: '1', textAlign: 'left' }}
+//             >
+//               <h2 style={{
+//                 fontSize: '3.5rem',
+//                 color: '#e0e0e0',
+//                 lineHeight: '1.2',
+//                 marginBottom: '1.5rem',
+//                 fontWeight: '800'
+//               }}>
+//                 Your <span style={{ color: '#1e90ff' }}>Trusted Partner</span> in Wealth Growth
+//               </h2>
+//               <p style={{
+//                 fontSize: '1.2rem',
+//                 color: '#a0a0b0',
+//                 lineHeight: '1.6',
+//                 marginBottom: '1.5rem'
+//               }}>
+//                 At Vunathi Capital, we are dedicated to democratizing investment opportunities. Our mission is to empower individuals to achieve their financial goals through intelligent, diversified, and accessible investment solutions. We believe in transparency, technology, and putting our investors first.
+//               </p>
+//             </motion.div>
+//           </div>
+//         </section>
+//         <FeaturesSection featureCards={featureCards} />
+
+//         <section style={{
+//           display: 'flex',
+//           flexDirection: 'column',
+//           alignItems: 'center',
+//           textAlign: 'center',
+//           marginBottom: '2rem',
+//           padding: '2rem 0'
+//         }}>
+//           <FaGraduationCap style={{ fontSize: '3rem', color: '#1e90ff', marginBottom: '1rem' }} />
+//           <h2 style={{
+//             fontSize: '2.5rem',
+//             color: '#e0e0e0',
+//             lineHeight: '1.2',
+//             marginBottom: '1.5rem',
+//             fontWeight: '900'
+//           }}>
+//           Finance  <span style={{ color: '#1e90ff' }}>simplified</span>,
+//           </h2>
+//           <h2 style={{
+//             fontSize: '2.5rem',
+//             color: '#e0e0e0',
+//             lineHeight: '1.2',
+//             marginBottom: '1.5rem',
+//             fontWeight: '900'
+//           }}>
+//           in your <span style={{ color: '#1e90ff' }}>language</span>.
+//           </h2>
+//         </section>
+        
+//         <section style={{
+//           width: '100%',
+//           padding: '4rem 0',
+//           margin: '4rem 0',
+//         }}>
+//           <div style={{
+//             maxWidth: '1200px',
+//             margin: '0 auto',
+//             display: 'grid',
+//             gridTemplateColumns: '1fr 1fr',
+//             gap: '2rem',
+//             textAlign: 'center'
+//           }}>
+//             <motion.div
+//               initial={{ opacity: 0, x: -100 }}
+//               whileInView={{ opacity: 1, x: 0 }}
+//               viewport={{ once: true, amount: 0.3 }}
+//               transition={{ duration: 0.8, ease: 'easeOut' }}
+//               style={{
+//                 background: 'rgba(255, 255, 255, 0.05)',
+//                 backdropFilter: 'blur(10px)',
+//                 padding: '2.5rem',
+//                 borderRadius: '15px',
+//                 border: '1px solid rgba(255, 255, 255, 0.1)',
+//                 transform: 'scale(1)',
+//                 transition: 'transform 0.3s'
+//               }}
+//               onMouseOver={(e) => {
+//                 e.currentTarget.style.transform = 'scale(1.05)';
+//               }}
+//               onMouseOut={(e) => {
+//                 e.currentTarget.style.transform = 'scale(1)';
+//               }}
+//             >
+//               <FaShieldAlt style={{
+//                 fontSize: '3.5rem',
+//                 color: '#1e90ff',
+//                 margin: '0 auto 1.5rem',
+//                 display: 'block'
+//               }} />
+//               <h3 style={{
+//                 fontSize: '2rem',
+//                 fontWeight: '800',
+//                 color: '#e0e0e0',
+//                 marginBottom: '1.5rem'
+//               }}>Our <span style={{ color: '#1e90ff' }}>Vision</span></h3>
+//               <p style={{
+//                 fontSize: '1.1rem',
+//                 color: '#a0a0b0',
+//                 lineHeight: '1.6'
+//               }}>
+//                 To empower investors with simple, transparent, and tech-driven wealth management, making sophisticated investing accessible to everyone.
+//               </p>
+//             </motion.div>
+
+            
+//             <motion.div
+//               initial={{ opacity: 0, x: 100 }}
+//               whileInView={{ opacity: 1, x: 0 }}
+//               viewport={{ once: true, amount: 0.3 }}
+//               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+//               style={{
+//                 background: 'rgba(255, 255, 255, 0.05)',
+//                 backdropFilter: 'blur(10px)',
+//                 padding: '2.5rem',
+//                 borderRadius: '15px',
+//                 border: '1px solid rgba(255, 255, 255, 0.1)',
+//                 transform: 'scale(1)',
+//                 transition: 'transform 0.3s'
+//               }}
+//               onMouseOver={(e) => {
+//                 e.currentTarget.style.transform = 'scale(1.05)';
+//               }}
+//               onMouseOut={(e) => {
+//                 e.currentTarget.style.transform = 'scale(1)';
+//               }}
+//             >
+//               <FaChartLine style={{
+//                 fontSize: '3.5rem',
+//                 color: '#1e90ff',
+//                 margin: '0 auto 1.5rem',
+//                 display: 'block'
+//               }} />
+//               <h3 style={{
+//                 fontSize: '2rem',
+//                 fontWeight: '800',
+//                 color: '#e0e0e0',
+//                 marginBottom: '1.5rem'
+//               }}>Our <span style={{ color: '#1e90ff' }}>Mission</span></h3>
+//               <p style={{
+//                 fontSize: '1.1rem',
+//                 color: '#a0a0b0',
+//                 lineHeight: '1.6'
+//               }}>
+//                 To deliver long-term trust and sustainable returns with minimal complexity, fostering a community of informed and successful investors.
+//               </p>
+//             </motion.div>
+//           </div>
+//         </section>
+
+        
+//         <section id="user-first-section" style={{
+//           display: 'flex',
+//           flexDirection: 'row',
+//           alignItems: 'center',
+//           width: '100%',
+//           gap: '6rem',
+//           marginBottom: '5rem',
+//           padding: '2rem 4rem',
+//           overflow: 'hidden'
+//         }}>
+//           <div style={{
+//             flex: 1,
+//             display: 'flex',
+//             flexDirection: 'column'
+//           }}>
+//             <h2 style={{
+//               fontSize: '3.5rem',
+//               color: '#e0e0e0',
+//               lineHeight: '1.2',
+//               marginBottom: '1rem',
+//               fontWeight: '800'
+//             }}>
+//               Always Keeping You <span style={{ color: '#1e90ff' }}>First</span>
+//             </h2>
+//             <p style={{
+//               fontSize: '1.2rem',
+//               color: '#a0a0b0',
+//               marginBottom: '2.5rem',
+//               lineHeight: '1.6'
+//             }}>
+//               Our users - traders & investors - will always be our priority, even when we're building new features or delivering customer support everyday.
+//             </p>
+//             <div style={{
+//               display: 'grid',
+//               gridTemplateColumns: '1fr 1fr',
+//               gap: '1.5rem',
+//               marginBottom: '2.5rem',
+//               justifyContent: 'space-between'
+//             }}>
+//               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'flex-start' }}>
+//                 <motion.div
+//                   initial={{ opacity: 0, x: -20 }}
+//                   whileInView={{ opacity: 1, x: 0 }}
+//                   viewport={{ once: true }}
+//                   transition={{ duration: 0.5, delay: 0 }}
+//                   style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+//                 >
+//                   <FaUserTie size={24} style={{ color: '#1e90ff' }} />
+//                   <span style={{ fontSize: '1.1rem', color: '#a0a0b0' }}>No Relationship Managers</span>
+//                 </motion.div>
+//                 <motion.div
+//                   initial={{ opacity: 0, x: -20 }}
+//                   whileInView={{ opacity: 1, x: 0 }}
+//                   viewport={{ once: true }}
+//                   transition={{ duration: 0.5, delay: 0.2 }}
+//                   style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+//                 >
+//                   <FaBan size={24} style={{ color: '#1e90ff' }} />
+//                   <span style={{ fontSize: '1.1rem', color: '#a0a0b0' }}>No Spam</span>
+//                 </motion.div>
+//                 <motion.div
+//                   initial={{ opacity: 0, x: -20 }}
+//                   whileInView={{ opacity: 1, x: 0 }}
+//                   viewport={{ once: true }}
+//                   transition={{ duration: 0.5, delay: 0.4 }}
+//                   style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+//                 >
+//                   <FaLock size={24} style={{ color: '#1e90ff' }} />
+//                   <span style={{ fontSize: '1.1rem', color: '#a0a0b0' }}>No Data Sharing</span>
+//                 </motion.div>
+//               </div>
+//               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'flex-start', marginLeft: '2rem' }}>
+//                 <motion.div
+//                   initial={{ opacity: 0, x: 10 }}
+//                   whileInView={{ opacity: 1, x: 0 }}
+//                   viewport={{ once: true }}
+//                   transition={{ duration: 0.5, delay: 0.1 }}
+//                   style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+//                 >
+//                   <FaPhoneSlash size={24} style={{ color: '#1e90ff' }} />
+//                   <span style={{ fontSize: '1.1rem', color: '#a0a0b0' }}>No Calls</span>
+//                 </motion.div>
+//                 <motion.div
+//                   initial={{ opacity: 0, x: 10 }}
+//                   whileInView={{ opacity: 1, x: 0 }}
+//                   viewport={{ once: true }}
+//                   transition={{ duration: 0.5, delay: 0.3 }}
+//                   style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+//                 >
+//                   <FaShieldAlt size={24} style={{ color: '#1e90ff' }} />
+//                   <span style={{ fontSize: '1.1rem', color: '#a0a0b0' }}>No Unauthorized Access</span>
+//                 </motion.div>
+//                 <motion.div
+//                   initial={{ opacity: 0, x: 10 }}
+//                   whileInView={{ opacity: 1, x: 0 }}
+//                   viewport={{ once: true }}
+//                   transition={{ duration: 0.5, delay: 0.5 }}
+//                   style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+//                 >
+//                   <FaCommentSlash size={24} style={{ color: '#1e90ff' }} />
+//                   <span style={{ fontSize: '1.1rem', color: '#a0a0b0' }}>No SMS</span>
+//                 </motion.div>
+//               </div>
+//             </div>
+//           </div>
+//           <motion.div
+//             initial={{ opacity: 0, x: 100 }}
+//             whileInView={{ opacity: 1, x: 0 }}
+//             viewport={{ once: true, amount: 0.3 }}
+//             transition={{ type: 'spring', stiffness: 120, damping: 15 }}
+//             style={{
+//               flex: 1,
+//               display: 'flex',
+//               justifyContent: 'center',
+//               alignItems: 'center',
+//               position: 'relative',
+//               height: '400px',
+//               maxWidth: '400px',
+//               overflow: 'hidden'
+//             }}
+//           >
+//             <div className="animation-container" style={{
+//               position: 'relative',
+//               width: '300px',
+//               height: '300px',
+//               perspective: '1000px',
+//               transformStyle: 'preserve-3d',
+//               background: 'radial-gradient(circle, rgba(76, 201, 240, 0.1) 0%, transparent 70%)',
+//               transform: 'translateX(-20px)'
+//             }}>
+//               <motion.div
+//                 animate={{
+//                   rotateY: [0, 360],
+//                   scale: [1, 1.1, 1]
+//                 }}
+//                 transition={{
+//                   rotateY: { duration: 8, repeat: Infinity, ease: 'linear' },
+//                   scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' }
+//                 }}
+//                 style={{
+//                   position: 'absolute',
+//                   top: '50%',
+//                   left: '50%',
+//                   width: '120px',
+//                   height: '120px',
+//                   background: 'linear-gradient(135deg, #4cc9f0, #4361ee)',
+//                   borderRadius: '15px',
+//                   transform: 'translate(-50%, -50%)',
+//                   display: 'flex',
+//                   alignItems: 'center',
+//                   justifyContent: 'center',
+//                   boxShadow: '0 0 30px rgba(76, 201, 240, 0.6)',
+//                   zIndex: 10,
+//                   animation: 'glow 3s ease-in-out infinite'
+//                 }}
+//               >
+//                 <FaShieldAlt size={48} style={{ color: 'white', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.5))' }} />
+//               </motion.div>
+//               {[0, 90, 180, 270].map((angle, index) => (
+//                 <motion.div
+//                   key={index}
+//                   animate={{
+//                     rotateZ: [angle, angle + 360]
+//                   }}
+//                   transition={{
+//                     duration: 10 + index * 2,
+//                     repeat: Infinity,
+//                     ease: 'linear'
+//                   }}
+//                   style={{
+//                     position: 'absolute',
+//                     top: '50%',
+//                     left: '50%',
+//                     width: '180px',
+//                     height: '180px',
+//                     transform: 'translate(-50%, -50%)',
+//                     transformOrigin: 'center'
+//                   }}
+//                 >
+//                   <motion.div
+//                     animate={{
+//                       y: [-10, 10, -10],
+//                       rotateX: [0, 15, 0]
+//                     }}
+//                     transition={{
+//                       duration: 3 + index * 0.5,
+//                       repeat: Infinity,
+//                       ease: 'easeInOut'
+//                     }}
+//                     style={{
+//                       position: 'absolute',
+//                       top: '0',
+//                       left: '50%',
+//                       width: '50px',
+//                       height: '50px',
+//                       background: 'linear-gradient(135deg, rgba(76, 201, 240, 0.2), rgba(67, 97, 238, 0.2))',
+//                       borderRadius: '10px',
+//                       transform: 'translateX(-50%)',
+//                       display: 'flex',
+//                       alignItems: 'center',
+//                       justifyContent: 'center',
+//                       border: '1px solid rgba(76, 201, 240, 0.3)',
+//                       backdropFilter: 'blur(8px)',
+//                       boxShadow: '0 5px 15px rgba(76, 201, 240, 0.3)'
+//                     }}
+//                   >
+//                     {[FaPhoneSlash, FaCommentSlash, FaBan, FaUserTie][index] &&
+//                       React.createElement([FaPhoneSlash, FaCommentSlash, FaBan, FaUserTie][index], {
+//                         size: 20,
+//                         style: { color: '#1e90ff', filter: 'drop-shadow(0 0 4px rgba(76, 201, 240, 0.5))' }
+//                       })}
+//                   </motion.div>
+//                 </motion.div>
+//               ))}
+//               {Array.from({ length: 8 }).map((_, index) => (
+//                 <motion.div
+//                   key={`particle-${index}`}
+//                   animate={{
+//                     x: [0, Math.sin(index * 0.8) * 80, 0],
+//                     y: [0, Math.cos(index * 0.8) * 80, 0],
+//                     opacity: [0.3, 0.8, 0.3],
+//                     scale: [0.8, 1.5, 0.8]
+//                   }}
+//                   transition={{
+//                     duration: 4 + index * 0.3,
+//                     repeat: Infinity,
+//                     ease: 'easeInOut',
+//                     delay: index * 0.2
+//                   }}
+//                   style={{
+//                     position: 'absolute',
+//                     top: `${30 + (index * 8)}%`,
+//                     left: `${30 + (index * 8)}%`,
+//                     width: '6px',
+//                     height: '6px',
+//                     borderRadius: '50%',
+//                     background: '#1e90ff',
+//                     boxShadow: '0 0 8px rgba(76, 201, 240, 0.8)',
+//                     zIndex: 5
+//                   }}
+//                 />
+//               ))}
+//               {[1, 2].map((ring, index) => (
+//                 <motion.div
+//                   key={`ring-${index}`}
+//                   animate={{
+//                     rotateX: [0, 360],
+//                     opacity: [0.4, 0.7, 0.4]
+//                   }}
+//                   transition={{
+//                     rotateX: { duration: 6 + index * 2, repeat: Infinity, ease: 'linear' },
+//                     opacity: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+//                   }}
+//                   style={{
+//                     position: 'absolute',
+//                     top: '50%',
+//                     left: '50%',
+//                     width: `${120 + index * 40}px`,
+//                     height: `${120 + index * 40}px`,
+//                     border: '1px solid rgba(76, 201, 240, 0.3)',
+//                     borderRadius: '50%',
+//                     transform: 'translate(-50%, -50%)',
+//                     boxShadow: '0 0 15px rgba(76, 201, 240, 0.2)'
+//                   }}
+//                 />
+//               ))}
+//               {['SECURE', 'TRUST', 'SUCCESS'].map((text, index) => (
+//                 <motion.div
+//                   key={text}
+//                   animate={{
+//                     rotateZ: [0, 360],
+//                     scale: [0.8, 1.1, 0.8]
+//                   }}
+//                   transition={{
+//                     rotateZ: { duration: 12 + index * 4, repeat: Infinity, ease: 'linear' },
+//                     scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' }
+//                   }}
+//                   style={{
+//                     position: 'absolute',
+//                     top: '50%',
+//                     left: '50%',
+//                     width: '200px',
+//                     height: '200px',
+//                     transform: 'translate(-50%, -50%)',
+//                     transformOrigin: 'center'
+//                   }}
+//                 >
+//                   <div style={{
+//                     position: 'absolute',
+//                     top: `${index * 50}%`,
+//                     left: '100%',
+//                     transform: 'translateX(-50%)',
+//                     fontSize: '0.9rem',
+//                     fontWeight: '600',
+//                     color: '#1e90ff',
+//                     textShadow: '0 0 8px rgba(76, 201, 240, 0.5)',
+//                     whiteSpace: 'nowrap'
+//                   }}>
+//                     {text}
+//                   </div>
+//                 </motion.div>
+//               ))}
+//             </div>
+//           </motion.div>
+//         </section>
+//         <section id="signup-section" style={{
+//           width: '100%',
+//           padding: '4rem',
+//           margin: '4rem 0',
+//           textAlign: 'center',
+//           border: 'none'
+//         }}>
+//           <h2 style={{
+//             fontSize: '3.5rem',
+//             color: '#e0e0e0',
+//             lineHeight: '1.2',
+//             marginBottom: '1.5rem',
+//             fontWeight: '800'
+//           }}>
+//             Ready to<span style={{ color: '#1e90ff' }}> Grow Your</span> Wealth ?
+//           </h2>
+//           <p style={{
+//             fontSize: '1.3rem',
+//             color: '#a0a0b0',
+//             marginBottom: '2.5rem',
+//             maxWidth: '800px',
+//             margin: '0 auto 2.5rem',
+//             lineHeight: '1.6'
+//           }}>
+//             Join thousands of investors who trust Vunathi Capital with their financial future.
+//             Start your journey to financial freedom today.
+//           </p>
+//           <button style={{
+//             background: 'linear-gradient(90deg, #2a5298, #1e90ff)',
+//             color: 'white',
+//             border: 'none',
+//             padding: '0.8rem 2rem',
+//             fontSize: '1.1rem',
+//             fontWeight: '500',
+//             borderRadius: '8px',
+//             cursor: 'pointer',
+//             boxShadow: '0 0 10px rgba(76, 201, 240, 0.15)',
+//             transition: 'transform 0.2s, box-shadow 0.2s'
+//           }} onClick={handleLogin} onMouseOver={(e) => {
+//             e.target.style.transform = 'translateY(-1px)';
+//             e.target.style.boxShadow = '0 4px 10px rgba(30, 144, 255, 0.3)';
+//           }} onMouseOut={(e) => {
+//             e.target.style.transform = 'translateY(0)';
+//             e.target.style.boxShadow = '0 2px 5px rgba(30, 144, 255, 0.2)';
+//           }}>
+//             START INVESTING NOW
+//           </button>
+//         </section>
+//         <section style={{
+//           width: '100%',
+//           padding: '4rem 0',
+//           overflow: 'hidden',
+//           position: 'relative',
+//           margin: '5rem 0',
+//           isolation: 'isolate'
+//         }}>
+//           <div style={{
+//             position: 'absolute',
+//             top: 0,
+//             left: 0,
+//             width: '100%',
+//             height: '100%',
+//             background: `
+//               radial-gradient(circle at 15% 50%, rgba(30, 144, 255, 0.08) 0%, transparent 30%),
+//               radial-gradient(circle at 85% 70%, rgba(76, 201, 240, 0.05) 0%, transparent 30%)
+//             `,
+//             zIndex: -1
+//           }}></div>
+//           <motion.div
+//             style={{
+//               position: 'absolute',
+//               top: 0,
+//               left: '-100%',
+//               width: '50%',
+//               height: '100%',
+//               background: 'linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.1), transparent)',
+//               zIndex: 0
+//             }}
+//             animate={{ left: '200%' }}
+//             transition={{
+//               duration: 3,
+//               repeat: Infinity,
+//               ease: 'easeInOut'
+//             }}
+//           />
+//           <div style={{
+//             position: 'absolute',
+//             top: 0,
+//             left: 0,
+//             width: '180px',
+//             height: '100%',
+//             background: 'linear-gradient(90deg, rgba(10, 14, 23, 0.98) 0%, rgba(10, 14, 23, 0) 100%)',
+//             zIndex: 3
+//           }}></div>
+//           <div style={{
+//             position: 'absolute',
+//             top: 0,
+//             right: 0,
+//             width: '180px',
+//             height: '100%',
+//             background: 'linear-gradient(270deg, rgba(10, 14, 23, 0.98) 0%, rgba(10, 14, 23, 0) 100%)',
+//             zIndex: 3
+//           }}></div>
+//           <div style={{
+//             textAlign: 'center',
+//             marginBottom: '3rem',
+//             position: 'relative',
+//             zIndex: 2
+//           }}>
+//             <h2 style={{
+//               fontSize: '2rem',
+//               fontWeight: '900',
+//               color: '#e0e0e0',
+//               marginBottom: '0.5rem',
+//               letterSpacing: '0.05em'
+//             }}>
+//               WHY INVESTORS <span style={{ color: '#1e90ff' }}>CHOOSE</span> VUNATHI CAPITAL
+//             </h2>
+//             <div style={{
+//               width: '80px',
+//               height: '3px',
+//               background: 'linear-gradient(90deg, #1e90ff, #4cc9f0)',
+//               margin: '0 auto',
+//               borderRadius: '3px'
+//             }}></div>
+//           </div>
+//           <div style={{
+//             display: 'flex',
+//             width: '100%',
+//             overflow: 'hidden',
+//             position: 'relative',
+//             padding: '1rem 0',
+//             zIndex: 2
+//           }}>
+//             <motion.div
+//               style={{
+//                 display: 'flex',
+//                 flexShrink: 0,
+//                 alignItems: 'center',
+//                 justifyContent: 'center'
+//               }}
+//               animate={{ x: ['0%', '-50%'] }}
+//               transition={{
+//                 duration: 40,
+//                 repeat: Infinity,
+//                 ease: 'linear'
+//               }}
+//             >
+//               {[
+//                 { icon: FaShieldAlt, title: 'Bank-Level Security', description: 'Your investments are protected' },
+//                 { icon: FaChartLine, title: 'Consistent Returns', description: 'Proven performance track record' },
+//                 { icon: FaRobot, title: 'AI-Powered Algorithms', description: 'Smart investment technology' },
+//                 { icon: FaGlobe, title: 'Global Diversification', description: 'Access to worldwide markets' },
+//                 { icon: FaLock, title: 'Zero Data Sharing', description: 'Your privacy is guaranteed' },
+//                 { icon: FaUsers, title: 'Trusted Community', description: 'Join thousands of satisfied investors' },
+//                 { icon: FaLightbulb, title: 'Smart Insights', description: 'Expert analysis and recommendations' },
+//                 { icon: FaMobileAlt, title: 'Mobile Access', description: 'Manage investments anywhere' }
+//               ].map((item, idx) => (
+//                 <motion.div
+//                   key={idx}
+//                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
+//                   style={{
+//                     display: 'flex',
+//                     alignItems: 'center',
+//                     background: 'rgba(30, 35, 50, 0.4)',
+//                     padding: '1.2rem 2rem',
+//                     borderRadius: '16px',
+//                     border: '1px solid rgba(76, 201, 240, 0.15)',
+//                     margin: '0 1.5rem',
+//                     cursor: 'default',
+//                     backdropFilter: 'blur(8px)',
+//                     boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+//                     minWidth: '320px',
+//                     justifyContent: 'center'
+//                   }}
+//                 >
+//                   <div style={{
+//                     width: '42px',
+//                     height: '42px',
+//                     borderRadius: '12px',
+//                     background: 'linear-gradient(135deg, rgba(30, 144, 255, 0.15), rgba(76, 201, 240, 0.15))',
+//                     display: 'flex',
+//                     alignItems: 'center',
+//                     justifyContent: 'center',
+//                     marginRight: '1.2rem',
+//                     flexShrink: 0
+//                   }}>
+//                     <item.icon style={{ color: '#1e90ff', fontSize: '1.4rem' }} />
+//                   </div>
+//                   <div>
+//                     <div style={{
+//                       fontSize: '1.1rem',
+//                       fontWeight: '600',
+//                       color: '#e0e0e0',
+//                       marginBottom: '0.2rem'
+//                     }}>
+//                       {item.title}
+//                     </div>
+//                     <div style={{
+//                       fontSize: '0.9rem',
+//                       color: '#a0a0b0'
+//                     }}>
+//                       {item.description}
+//                     </div>
+//                   </div>
+//                 </motion.div>
+//               ))}
+//             </motion.div>
+//           </div>
+//           <motion.div
+//             initial={{ opacity: 0, y: 20 }}
+//             whileInView={{ opacity: 1, y: 0 }}
+//             viewport={{ once: true }}
+//             transition={{ duration: 0.7 }}
+//             style={{
+//               display: 'flex',
+//               justifyContent: 'center',
+//               gap: '3rem',
+//               marginTop: '3.5rem',
+//               position: 'relative',
+//               zIndex: 2,
+//               flexWrap: 'wrap'
+//             }}
+//           >
+//             {[
+//               {
+//                 icon: FaHandshake,
+//                 title: 'Trusted Partner',
+//                 description: 'Your success is our priority'
+//               },
+//               {
+//                 icon: FaGraduationCap,
+//                 title: 'Expert Guidance',
+//                 description: 'Learn as you invest'
+//               },
+//               {
+//                 icon: FaShieldAlt,
+//                 title: 'Peace of Mind',
+//                 description: 'Invest with confidence'
+//               }
+//             ].map((benefit, idx) => (
+//               <div key={idx} style={{
+//                 textAlign: 'center',
+//                 padding: '1.5rem 2rem',
+//                 background: 'rgba(30, 35, 50, 0.4)',
+//                 borderRadius: '16px',
+//                 border: '1px solid rgba(76, 201, 240, 0.15)',
+//                 backdropFilter: 'blur(8px)',
+//                 maxWidth: '260px',
+//                 minHeight: '180px',
+//                 display: 'flex',
+//                 flexDirection: 'column',
+//                 alignItems: 'center',
+//                 justifyContent: 'center'
+//               }}>
+//                 <benefit.icon style={{
+//                   color: '#1e90ff',
+//                   fontSize: '2.2rem',
+//                   marginBottom: '1rem',
+//                   filter: 'drop-shadow(0 0 8px rgba(76, 201, 240, 0.3))'
+//                 }} />
+//                 <div style={{
+//                   fontSize: '1.3rem',
+//                   fontWeight: '600',
+//                   color: '#e0e0e0',
+//                   marginBottom: '0.8rem'
+//                 }}>
+//                   {benefit.title}
+//                 </div>
+//                 <div style={{
+//                   fontSize: '1rem',
+//                   color: '#a0a0b0',
+//                   lineHeight: '1.4'
+//                 }}>
+//                   {benefit.description}
+//                 </div>
+//               </div>
+//             ))}
+//           </motion.div>
+//         </section>
+//         <footer style={{
+//           marginTop: '4rem',
+//           textAlign: 'center',
+//           color: '#a0a0b0',
+//           padding: '3rem',
+//           width: '100%',
+//         }}>
+//           <div style={{
+//             color: '#e0e0e0',
+//             padding: '0.8rem 1.5rem',
+//             display: 'flex',
+//             alignItems: 'center',
+//             justifyContent: 'center',
+//             fontSize: '1.1rem',
+//             fontWeight: '500',
+//             margin: '0 auto 2rem',
+//             maxWidth: '600px'
+//           }}>
+//             <span style={{
+//               color: '#ff1493',
+//               marginRight: '0.6rem',
+//               fontSize: '1.3rem',
+//               animation: 'heartbeat 1.5s ease-in-out infinite'
+//             }}>❤️</span>
+//             {typedText}
+//             <span style={{
+//               marginLeft: '0.2rem',
+//               animation: 'blink 1s step-end infinite',
+//               color: '#1e90ff'
+//             }}>|</span>
+//           </div>
+//           <div style={{ marginBottom: '1.5rem' }}>
+//             <h2 style={{
+//               fontSize: '2rem',
+//               color: '#e0e0e0',
+//               lineHeight: '1.2',
+//               marginBottom: '1.5rem',
+//               fontWeight: '800'
+//             }}>
+//               <span style={{ color: '#1e90ff' }}>VUNATHI</span> CAPITAL
+//             </h2>
+//           </div>
+//           <p>© 2025 Vunathi Capital. All rights reserved.</p>
+//           <p>Financial investing involves risk, including the possible loss of principal.</p>
+//         </footer>
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default VunathiCapital;
+
+
+
+
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FaHandshake, FaUsers, FaChartLine, FaShieldAlt, FaLightbulb, FaRobot, FaGlobe, FaMobileAlt, FaPhoneSlash, FaCommentSlash, FaBan, FaUserTie, FaLock, FaGraduationCap } from 'react-icons/fa';
+
+const FeaturesSection = ({ featureCards }) => {
+  const [currentCard, setCurrentCard] = useState(0);
+  const carouselRef = useRef(null);
+  const intervalRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Check screen size
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [cards.length]);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  return (
-    <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden">
-      {cards.map((card, index) => (
-        <motion.div
-          key={index}
-          className={`absolute w-48 sm:w-56 md:w-64 h-64 sm:h-72 md:h-80 rounded-3xl p-4 sm:p-6 text-white flex flex-col justify-between ${card.color} shadow-2xl backdrop-blur-md border border-white/20`}
-          initial={{
-            opacity: 0,
-            x: index > currentIndex ? 300 : -300,
-            scale: 0.8,
-            rotate: index > currentIndex ? 10 : -10,
-          }}
-          animate={{
-            opacity: index === currentIndex ? 1 : 0.4,
-            x: index === currentIndex ? 0 : index > currentIndex ? 300 : -300,
-            scale: index === currentIndex ? 1 : 0.8,
-            rotate: index === currentIndex ? 0 : index > currentIndex ? 5 : -5,
-            zIndex: index === currentIndex ? 10 : 1,
-          }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          style={{
-            left: "50%",
-            transform: "translateX(-50%)",
-            perspective: 1000,
-          }}
-        >
-          <div className="text-3xl sm:text-4xl md:text-5xl mb-4">{card.icon}</div>
-          <div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2">{card.title}</h3>
-            <p className="text-white/90 text-xs sm:text-sm">{card.description}</p>
-          </div>
-          <div className="flex justify-center mt-4">
-            {cards.map((_, i) => (
-              <div
-                key={i}
-                className={`w-2 h-2 rounded-full mx-1 ${i === currentIndex ? "bg-white" : "bg-white/30"}`}
-              />
-            ))}
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-// Resource Card Component
-const ResourceCard = ({ title, description, link, icon, color }) => {
-  return (
-    <motion.div
-      className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 hover:border-emerald-400/30 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-      whileHover={{ y: -5, scale: 1.02 }}
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      <div className="flex items-start mb-4">
-        <div className={`p-3 rounded-xl ${color} mr-4`}>
-          <span className="text-xl sm:text-2xl">{icon}</span>
-        </div>
-        <h3 className="font-bold text-base sm:text-lg text-white">{title}</h3>
-      </div>
-      <p className="text-xs sm:text-sm text-gray-200 mb-4">{description}</p>
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-emerald-400 text-xs sm:text-sm font-medium hover:underline"
-      >
-        Visit Resource
-      </a>
-    </motion.div>
-  );
-};
-
-// Tool Card Component
-const ToolCard = ({ title, description, features, icon, color }) => {
-  return (
-    <motion.div
-      className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 hover:border-emerald-400/30 shadow-lg hover:shadow-xl transition-all duration-300"
-      whileHover={{ y: -5, scale: 1.02 }}
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      <div className="flex items-center mb-4">
-        <div className={`p-3 rounded-xl ${color} mr-4`}>
-          <span className="text-xl sm:text-2xl">{icon}</span>
-        </div>
-        <h3 className="font-bold text-base sm:text-lg text-white">{title}</h3>
-      </div>
-      <p className="text-xs sm:text-sm text-gray-200 mb-4">{description}</p>
-      <div className="mt-4">
-        <h4 className="text-white text-xs sm:text-sm font-semibold mb-2">Key Features:</h4>
-        <ul className="text-xs sm:text-sm text-gray-300 space-y-1">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-start">
-              <span className="text-emerald-400 mr-2">•</span>
-              {feature}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </motion.div>
-  );
-};
-
-// Animated Trading Chart Component
-const AnimatedTradingChart = () => {
-  const [activePoint, setActivePoint] = useState(0);
-  const dataPoints = [
-    { value: 40, label: "Jan" },
-    { value: 80, label: "Feb" },
-    { value: 60, label: "Mar" },
-    { value: 120, label: "Apr" },
-    { value: 90, label: "May" },
-    { value: 150, label: "Jun" },
-    { value: 130, label: "Jul" },
-    { value: 180, label: "Aug" },
-    { value: 160, label: "Sep" },
-    { value: 210, label: "Oct" },
-    { value: 190, label: "Nov" },
-    { value: 240, label: "Dec" },
-  ];
-
+  // Start auto-rotation
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActivePoint((prev) => (prev + 1) % dataPoints.length);
-    }, 1500);
-    return () => clearInterval(interval);
-  }, [dataPoints.length]);
+    const startAutoRotation = () => {
+      if (!intervalRef.current) {
+        intervalRef.current = setInterval(() => {
+          setCurrentCard((prev) => (prev + 1) % featureCards.length);
+        }, 3000); // Rotate every 3 seconds
+      }
+    };
+    const stopAutoRotation = () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+    startAutoRotation();
+    return () => stopAutoRotation();
+  }, []);
 
-  return (
-    <div className="relative w-full h-48 sm:h-64 bg-black/20 rounded-2xl p-4 sm:p-6 border border-emerald-500/30 backdrop-blur-md">
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="grid grid-cols-12 gap-1 sm:gap-2 w-full h-32 sm:h-40 items-end px-2 sm:px-4">
-          {dataPoints.map((point, index) => (
-            <motion.div
-              key={index}
-              className="relative flex flex-col items-center"
-              animate={{
-                height: `${point.value * 0.6}px`, // Scaled for mobile
-                transition: { duration: 1, ease: "easeOut" },
-              }}
-              onHoverStart={() => setActivePoint(index)}
-            >
-              <motion.div
-                className={`w-2 sm:w-3 rounded-t ${
-                  index === activePoint
-                    ? "bg-gradient-to-t from-emerald-400 to-emerald-600"
-                    : "bg-gradient-to-t from-emerald-600/40 to-emerald-800/40"
-                }`}
-                animate={{
-                  height: "100%",
-                  transition: { duration: 0.5 },
-                }}
-              />
-              <span
-                className={`text-[10px] sm:text-xs mt-2 ${
-                  index === activePoint ? "text-emerald-400 font-bold" : "text-gray-400"
-                }`}
-              >
-                {point.label}
-              </span>
-              {index === activePoint && (
-                <motion.div
-                  className="absolute -top-6 sm:-top-8 bg-emerald-500 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-lg"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                >
-                  ₹{point.value * 100}
-                </motion.div>
-              )}
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 flex justify-center">
-        <div className="bg-black/40 backdrop-blur-sm rounded-lg px-3 sm:px-4 py-1 sm:py-2 border border-emerald-500/20">
-          <span className="text-emerald-400 text-xs sm:text-sm">Annual Growth: +42%</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Market Trends Component
-const MarketTrendsSection = () => {
-  const trends = [
-    {}, // Placeholder as in original code
-    {},
-    {},
-    {},
-  ];
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="text-center mb-8 sm:mb-12"
-      >
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Market Trends & Analysis</h2>
-        <p className="text-gray-200 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto">
-          Stay ahead of the market with our expert analysis and trend predictions
-        </p>
-      </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20"
-        >
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Live Market Performance</h3>
-          <AnimatedTradingChart />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20"
-        >
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Key Market Indicators</h3>
-          <div className="space-y-3 sm:space-y-4">
-            {[
-              { name: "Nifty 50", value: "+1.8%", change: "up" },
-              { name: "Sensex", value: "+1.5%", change: "up" },
-              { name: "Bank Nifty", value: "+2.3%", change: "up" },
-              { name: "USD/INR", value: "-0.4%", change: "down" },
-              { name: "Gold", value: "+0.7%", change: "up" },
-              { name: "Crude Oil", value: "-1.2%", change: "down" },
-            ].map((indicator, index) => (
-              <motion.div
-                key={index}
-                className="flex justify-between items-center py-2 border-b border-white/10"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <span className="text-gray-200 text-xs sm:text-sm">{indicator.name}</span>
-                <span
-                  className={`font-bold text-xs sm:text-sm ${
-                    indicator.change === "up" ? "text-green-400" : "text-red-400"
-                  }`}
-                >
-                  {indicator.value}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        {trends.map((trend, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            viewport={{ once: true }}
-          >
-            {/* Placeholder for trends */}
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// Main Component
-const Web = () => {
-  const navigate = useNavigate();
-  const products = [
-    {
-      name: "Stock Trading",
-      icon: (props) => (
-        <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-          />
-        </svg>
-      ),
-      description: "Buy and sell stocks with real-time market data",
-    },
-    {
-      name: "Portfolio Tracker",
-      icon: (props) => (
-        <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18M7 6h10M7 18h10" />
-        </svg>
-      ),
-      description: "Monitor your investments and track profits/losses",
-    },
-    {
-      name: "Risk Management",
-      icon: (props) => (
-        <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-          />
-        </svg>
-      ),
-      description: "Protect your investments with smart risk management tools",
-    },
-    {
-      name: "Dividend Tracking",
-      icon: (props) => (
-        <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-      ),
-      description: "Monitor and optimize your dividend income streams",
-    },
-  ];
-
-  const onboardingSteps = [
-    {
-      title: "Sign Up",
-      description: "Create your Vunathi Capital account in minutes. Just add your details and verify your identity.",
-    },
-    {
-      title: "Add Funds",
-      description: "Deposit as little as ₹100 to start. Use UPI, bank transfer, or cards—your choice!",
-    },
-    {
-      title: "Pick Your Stocks",
-      description: "Use our tools to explore stocks, check trends, and make smart picks.",
-    },
-    {
-      title: "Track & Trade",
-      description: "Monitor your portfolio on the dashboard and trade anytime with real-time data.",
-    },
-  ];
-
-  const dashboardFeatures = [
-    {
-      title: "Portfolio Overview",
-      description: "See all your stock investments in one place, with total value, gains, and losses.",
-    },
-    {
-      title: "Profit/Loss Tracker",
-      description: "Check real-time updates on how your stocks are performing, with clear charts.",
-    },
-    {
-      title: "Market Insights",
-      description: "Get daily updates on market trends and stock alerts to stay ahead.",
-    },
-    {
-      title: "Secure Investments",
-      description: "Bank-level security for all your transactions",
-      icon: "🔒",
-    },
-  ];
-
-  const investorOnboarding = {
-    title: "Welcome to Vunathi Capital",
-    pitch:
-      "Join Vunathi Capital, where your money works smarter. Invest in the stock market with real-time tracking, AI-driven insights, and expert strategies. Whether you're starting with ₹100 or ₹1,00,000, our platform helps you diversify and grow your wealth with ease. Monitor profits and losses on our user-friendly dashboard and trade with confidence.",
+  // Handle mouse enter to stop rotation
+  const handleMouseEnter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
   };
 
-  const newsWebsites = [
-    {
-      title: "Moneycontrol",
-      description:
-        "Popular platform for Indian stock investors, offering news, trends, charts, and discussion forums.",
-      link: "https://www.moneycontrol.com",
-      icon: "📰",
-      color: "bg-blue-500/20",
-    },
-    {
-      title: "TradingView",
-      description:
-        "Widely used globally for charts, screeners, technical analysis tools, and a large community for sharing ideas.",
-      link: "https://www.tradingview.com",
-      icon: "📊",
-      color: "bg-green-500/20",
-    },
-    {
-      title: "NSE India",
-      description:
-        "Official website of the National Stock Exchange of India, providing reliable market data and financial reports.",
-      link: "https://www.nseindia.com",
-      icon: "🇮🇳",
-      color: "bg-orange-500/20",
-    },
-    {
-      title: "Economic Times Market",
-      description:
-        "Leading source of up-to-the-minute financial news, analysis, and expert insights for the Indian stock market.",
-      link: "https://economictimes.indiatimes.com/markets",
-      icon: "📈",
-      color: "bg-purple-500/20",
-    },
-    {
-      title: "Investing.com",
-      description:
-        "Global platform with in-depth insights into various markets, including Indian stocks, featuring charts and technical indicators.",
-      link: "https://www.investing.com",
-      icon: "🌐",
-      color: "bg-red-500/20",
-    },
-    {
-      title: "BSE India",
-      description:
-        "Official website of the Bombay Stock Exchange, providing market data, financial reports, and corporate governance information.",
-      link: "https://www.bseindia.com",
-      icon: "💼",
-      color: "bg-yellow-500/20",
-    },
-  ];
+  // Handle mouse leave to resume rotation
+  const handleMouseLeave = () => {
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+        setCurrentCard((prev) => (prev + 1) % featureCards.length);
+      }, 3000);
+    }
+  };
 
-  const tradingTools = [
-    {
-      title: "Stock Screeners",
-      description: "Filter stocks based on your specific criteria like sector, market capitalization, P/E ratio, ROE, and CAGR.",
-      features: [
-        "Sector-based filtering",
-        "Fundamental analysis metrics",
-        "Technical indicator screening",
-        "Customizable parameters",
-      ],
-      icon: "🔍",
-      color: "bg-blue-500/20",
-    },
-    {
-      title: "Real-time News & Sentiment",
-      description: "Access real-time financial news and assess market sentiment to make informed trading decisions.",
-      features: [
-        "Real-time news aggregation",
-        "Sentiment analysis",
-        "Sector-specific news",
-        "Custom alerts and notifications",
-      ],
-      icon: "📢",
-      color: "bg-green-500/20",
-    },
-    {
-      title: "Charting & Technical Analysis",
-      description: "Powerful charting capabilities with technical indicators, pattern recognition, and backtesting features.",
-      features: [
-        "Multiple chart types",
-        "Technical indicators library",
-        "Pattern recognition",
-        "Historical backtesting",
-      ],
-      icon: "📉",
-      color: "bg-purple-500/20",
-    },
-    {
-      title: "Paper Trading",
-      description: "Practice trading strategies without risking real capital to build confidence and test approaches.",
-      features: [
-        "Virtual portfolio management",
-        "Real-market conditions",
-        "Performance tracking",
-        "Strategy testing",
-      ],
-      icon: "📝",
-      color: "bg-yellow-500/20",
-    },
-  ];
-
-  const educationalResources = [
-    {
-      title: "Zerodha Varsity",
-      description:
-        "Comprehensive modules and tutorials covering stock market basics, technical analysis, and trading strategies.",
-      link: "https://zerodha.com/varsity",
-      icon: "🎓",
-      color: "bg-blue-500/20",
-    },
-    {
-      title: "Investopedia",
-      description:
-        "Extensive resource with definitions and examples of stock market terms and concepts for all experience levels.",
-      link: "https://www.investopedia.com",
-      icon: "📚",
-      color: "bg-green-500/20",
-    },
-    {
-      title: "Market Data APIs",
-      description: "Integrate real-time and historical data directly into your applications using financial data APIs.",
-      link: "https://www.alphavantage.co",
-      icon: "🔌",
-      color: "bg-purple-500/20",
-    },
-    {
-      title: "Financial Data Providers",
-      description: "Access comprehensive market datasets from various sources including exchanges and news outlets.",
-      link: "https://www.datarade.ai",
-      icon: "💾",
-      color: "bg-yellow-500/20",
-    },
-  ];
-
-  const contentStrategy = [
-    {
-      title: "Identify Your Audience",
-      description:
-        "Understanding your audience (beginners, experienced traders, long-term investors) helps tailor content to their needs.",
-      icon: "👥",
-      color: "bg-blue-500/20",
-    },
-    {
-      title: "Address Pain Points",
-      description: "Research keywords and common questions to identify topics that resonate with your audience.",
-      icon: "❓",
-      color: "bg-green-500/20",
-    },
-    {
-      title: "Provide Practical Solutions",
-      description: "Offer actionable insights and valuable information that helps your audience make informed decisions.",
-      icon: "💡",
-      color: "bg-purple-500/20",
-    },
-    {
-      title: "Present Data Clearly",
-      description: "Use charts, graphs, and simple language to explain complex concepts and data points.",
-      icon: "📊",
-      color: "bg-yellow-500/20",
-    },
-    {
-      title: "Maintain Objectivity",
-      description: "Be transparent about data sources and avoid promoting specific stocks without thorough research.",
-      icon: "⚖️",
-      color: "bg-red-500/20",
-    },
-    {
-      title: "Regular Updates",
-      description: "Keep content fresh with updates on market trends, news, and new strategies.",
-      icon: "🔄",
-      color: "bg-indigo-500/20",
-    },
-  ];
+  // Mobile-specific carousel settings
+  const mobileSettings = {
+    cardWidth: 280,
+    cardHeight: 350,
+    perspective: 800,
+    translateZ: -100,
+    translateX: 150,
+    rotateY: 20
+  };
 
   return (
-    <div className="min-h-screen text-white font-sans overflow-hidden relative">
-      <AnimatedBackground />
-      {/* Navbar */}
-      <nav className="bg-black/30 backdrop-blur-md py-4 px-4 sm:px-6 flex justify-between items-center sticky top-0 z-50 border-b border-emerald-500/30">
-        <div className="flex items-center space-x-6 sm:space-x-10">
-          <motion.div
-            whileHover={{ scale: 1.05, rotateY: 5 }}
-            className="flex items-center cursor-pointer"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            style={{ transformStyle: "preserve-3d" }}
-          >
-            {/* LOGO UPDATED HERE */}
-            <img 
-              src="/Logo2.jpg" 
-              alt="Vunathi Capital Logo" 
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-emerald-500/30 shadow-md" 
-            />
-            <span className="ml-2 sm:ml-3 text-lg sm:text-2xl font-bold text-white">Vunathi Capital</span>
-          </motion.div>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Button3D onClick={() => navigate("/login")} className="px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm">
-            Login
-          </Button3D>
-        </div>
-      </nav>
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              Grow Your <span className="text-emerald-400">Wealth</span> with Stocks
-            </h1>
-            <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-gray-200 max-w-md sm:max-w-lg">
-              Hey there! Vunathi Capital lets you invest in stocks and track your profits and losses easily. Start small, trade smart, and watch your money grow.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotateY: 10 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
-            style={{ perspective: 1000 }}
-          >
-            <FloatingCard3D className="w-full h-64 sm:h-80 md:h-96 flex items-center justify-center bg-black/20">
-              <CardCarousel />
-            </FloatingCard3D>
-          </motion.div>
-        </div>
-      </div>
-      {/* Investment Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12"
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Your Stock Market Toolkit</h2>
-          <p className="text-gray-200 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto">
-            From tracking your portfolio to catching the latest market trends, we've got the tools to help you trade smarter.
-          </p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {products.map((product, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20, rotateY: -5 }}
-              whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              viewport={{ once: true }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <InvestmentIcon icon={product.icon} name={product.name} description={product.description} />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      {/* Market Trends Section */}
-      <MarketTrendsSection />
-      {/* Content Strategy Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12"
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Content Strategy Approach</h2>
-          <p className="text-gray-200 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto">
-            Our methodology for delivering valuable, relevant content to our investors and traders.
-          </p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {contentStrategy.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 hover:border-emerald-400/30 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
-                <div className="flex items-center mb-4">
-                  <div className={`p-3 rounded-xl ${item.color} mr-4`}>
-                    <span className="text-xl sm:text-2xl">{item.icon}</span>
-                  </div>
-                  <h3 className="font-bold text-base sm:text-lg text-white">{item.title}</h3>
-                </div>
-                <p className="text-xs sm:text-sm text-gray-200">{item.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      {/* Onboarding Guide Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12"
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Get Started in 4 Easy Steps</h2>
-          <p className="text-gray-200 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto">
-            New to Vunathi Capital? No worries! Here's how you can jump into stock market investing.
-          </p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {onboardingSteps.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20, rotateY: -5 }}
-              whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              viewport={{ once: true }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 hover:border-emerald-400/30 shadow-lg hover:shadow-xl transition-all duration-300">
-                <h3 className="font-bold text-base sm:text-lg text-white mb-2">{step.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-200">{step.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      {/* Dashboard Walkthrough Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12"
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">How Your Dashboard Works</h2>
-          <p className="text-gray-200 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto">
-            Your Vunathi Capital dashboard is your go-to spot for tracking stocks and making trades. Here's a quick guide.
-          </p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {dashboardFeatures.map((feature, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20, rotateY: -5 }}
-              whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              viewport={{ once: true }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 hover:border-emerald-400/30 shadow-lg hover:shadow-xl transition-all duration-300">
-                <h3 className="font-bold text-base sm:text-lg text-white mb-2">{feature.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-200">{feature.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      {/* Stats Section */}
-      <div className="bg-gradient-to-r from-emerald-600/90 to-teal-700/90 py-12 sm:py-16 mt-12 sm:mt-16 text-white relative overflow-hidden backdrop-blur-md">
-        <div className="absolute inset-0 opacity-10">
-          {[...Array(16)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-white"
+    <section id="features-section" style={{
+      width: '100%',
+      padding: isMobile ? '1rem 0.5rem' : '1rem 0',
+      margin: '1rem 0',
+      textAlign: 'center'
+    }}>
+      <h2 style={{
+        fontSize: isMobile ? '2.5rem' : '3.5rem',
+        color: '#e0e0e0',
+        lineHeight: '1.2',
+        marginBottom: isMobile ? '1rem' : '1.5rem',
+        fontWeight: '800'
+      }}>
+        Our <span style={{ color: '#1e90ff' }}>Features</span>
+      </h2>
+      <div className="carousel-container" style={{
+        position: 'relative',
+        height: isMobile ? '400px' : '500px',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        perspective: isMobile ? '800px' : '1200px',
+        overflow: 'hidden'
+      }} ref={carouselRef}>
+        {featureCards.map((card, index) => {
+          const totalCards = featureCards.length;
+          const position = (index - currentCard + totalCards) % totalCards;
+          
+          // Mobile adjustments
+          let translateZ, translateX, rotateY, opacity, scale;
+          
+          if (isMobile) {
+            if (position === 0) {
+              translateZ = 0;
+              translateX = 0;
+              rotateY = 0;
+              opacity = 1;
+              scale = 1;
+            } else if (position === 1 || position === totalCards - 1) {
+              translateZ = -100;
+              translateX = position === 1 ? 150 : -150;
+              rotateY = position === 1 ? -20 : 20;
+              opacity = 0.8;
+              scale = 0.9;
+            } else if (position === 2 || position === totalCards - 2) {
+              translateZ = -200;
+              translateX = position === 2 ? 250 : -250;
+              rotateY = position === 2 ? -30 : 30;
+              opacity = 0.5;
+              scale = 0.8;
+            } else {
+              translateZ = -300;
+              translateX = position < totalCards / 2 ? 350 : -350;
+              rotateY = position < totalCards / 2 ? -40 : 40;
+              opacity = 0;
+              scale = 0.7;
+            }
+          } else {
+            // Desktop settings
+            if (position === 0) {
+              translateZ = 0;
+              translateX = 0;
+              rotateY = 0;
+              opacity = 1;
+              scale = 1;
+            } else if (position === 1 || position === totalCards - 1) {
+              translateZ = -150;
+              translateX = position === 1 ? 250 : -250;
+              rotateY = position === 1 ? -30 : 30;
+              opacity = 0.8;
+              scale = 0.9;
+            } else if (position === 2 || position === totalCards - 2) {
+              translateZ = -300;
+              translateX = position === 2 ? 400 : -400;
+              rotateY = position === 2 ? -45 : 45;
+              opacity = 0.5;
+              scale = 0.8;
+            } else {
+              translateZ = -500;
+              translateX = position < totalCards / 2 ? 600 : -600;
+              rotateY = position < totalCards / 2 ? -60 : 60;
+              opacity = 0;
+              scale = 0.7;
+            }
+          }
+          
+          return (
+            <div
+              key={index}
+              className="carousel-card"
               style={{
-                width: Math.random() * 80 + 30,
-                height: Math.random() * 80 + 30,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
+                position: 'absolute',
+                width: isMobile ? '280px' : '350px',
+                height: isMobile ? '350px' : '420px',
+                background: 'linear-gradient(145deg, rgba(30, 35, 50, 0.9), rgba(20, 25, 40, 0.9))',
+                borderRadius: '20px',
+                padding: isMobile ? '1.5rem' : '2.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+                transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                opacity: opacity,
+                transition: 'transform 0.7s cubic-bezier(0.17, 0.67, 0.83, 0.67), opacity 0.7s ease',
+                zIndex: 10 - Math.abs(position),
+                cursor: 'pointer',
+                backfaceVisibility: 'hidden',
+                border: '1px solid rgba(76, 201, 240, 0.2)'
               }}
-              animate={{
-                y: [0, -20, 0],
-                x: [0, Math.random() * 30 - 15, 0],
-                rotate: [0, Math.random() * 360],
-              }}
-              transition={{
-                duration: Math.random() * 15 + 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center">
-            {[
-              { value: "5M+", label: "Active Investors" },
-              { value: "₹95,000Cr+", label: "Invested in Stocks" },
-              { value: "100+", label: "Stock Options" },
-              { value: "24/7", label: "Market Updates" },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="p-4 sm:p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-white">{stat.value}</div>
-                <div className="text-emerald-100 text-xs sm:text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* Investor Onboarding Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-emerald-500/90 to-teal-600/90 rounded-3xl p-6 sm:p-8 md:p-12 text-center text-white shadow-xl backdrop-blur-md border border-white/20"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{investorOnboarding.title}</h2>
-          <p className="text-emerald-100 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto mb-6 sm:mb-8">
-            {investorOnboarding.pitch}
-          </p>
-        </motion.div>
-      </div>
-      {/* Footer */}
-      <footer className="bg-black/80 backdrop-blur-md text-white pt-12 sm:pt-16 pb-8 border-t border-emerald-500/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
-            <div>
-              <div className="flex items-center mb-4 sm:mb-6">
-                {/* LOGO UPDATED HERE */}
-                <img 
-                  src="/Logo2.jpg" 
-                  alt="Vunathi Capital Logo" 
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-emerald-500/30 shadow-md" 
-                />
-                <span className="ml-2 sm:ml-3 text-lg sm:text-2xl font-bold">Vunathi Capital</span>
+              onClick={() => setCurrentCard(index)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div style={{
+                width: isMobile ? '60px' : '80px',
+                height: isMobile ? '60px' : '80px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #4361ee, #4cc9f0)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: isMobile ? '1.5rem' : '2rem',
+                color: 'white',
+                boxShadow: '0 0 20px rgba(76, 201, 240, 0.5)'
+              }}>
+                {typeof card.icon === 'string' ? (
+                  <span style={{ fontSize: isMobile ? '1.5rem' : '2rem' }}>{card.icon}</span>
+                ) : (
+                  <card.icon size={isMobile ? 24 : 32} />
+                )}
               </div>
-              <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6">
-                Your go-to platform for smart stock market investing and real-time portfolio tracking.
+              <h3 style={{
+                fontSize: isMobile ? '1.5rem' : '1.8rem',
+                fontWeight: '700',
+                color: '#e0e0e0',
+                marginBottom: isMobile ? '1rem' : '1.5rem',
+                textAlign: 'center'
+              }}>
+                {card.title}
+              </h3>
+              <p style={{
+                color: '#a0a0b0',
+                lineHeight: '1.6',
+                fontSize: isMobile ? '0.95rem' : '1.1rem',
+                textAlign: 'center'
+              }}>
+                {card.text}
               </p>
             </div>
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6">Investment Tools</h3>
-              <ul className="space-y-2 sm:space-y-3">
-                {["Stock Trading", "Portfolio Tracker", "Trading Strategies", "Market News"].map((item, i) => (
-                  <li key={i}>
-                    <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6">Resources</h3>
-              <ul className="space-y-2 sm:space-y-3">
-                {["Market Insights", "Trading Guides", "Stock Analysis", "Market Trends"].map((item, i) => (
-                  <li key={i}>
-                    <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6">Support</h3>
-              <ul className="space-y-2 sm:space-y-3">
-                {["Help Center", "FAQ", "Terms of Service", "Privacy Policy"].map((item, i) => (
-                  <li key={i}>
-                    <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-gray-400 text-xs sm:text-sm">
-              © {new Date().getFullYear()} Vunathi Capital. All rights reserved.
+          );
+        })}
+      </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: isMobile ? '1.5rem' : '2rem',
+        gap: '0.8rem'
+      }}>
+        {featureCards.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentCard(index)}
+            style={{
+              width: isMobile ? '10px' : '12px',
+              height: isMobile ? '10px' : '12px',
+              borderRadius: '50%',
+              border: 'none',
+              background: currentCard === index ? '#1e90ff' : 'rgba(30, 144, 255, 0.3)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const VunathiCapital = () => {
+  const navigate = useNavigate();
+  const carouselRef = useRef(null);
+  const [stats, setStats] = useState({
+    portfolioValue: 18700000000,
+    activeUsers: 543000,
+    avgReturn: 11.2,
+    tradingVolume: 2400000000
+  });
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [typedText, setTypedText] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024 && window.innerWidth > 768);
+  
+  const featureCards = [
+    {
+      icon: FaShieldAlt,
+      title: 'Secure Platform',
+      text: 'Your data and investments are protected with bank-level security and encryption protocols.'
+    },
+    {
+      icon: FaLightbulb,
+      title: 'Smart Insights',
+      text: 'AI-powered investment recommendations and personalized portfolio suggestions based on your goals.'
+    },
+    {
+      icon: FaRobot,
+      title: 'AI Algorithms',
+      text: 'Our sophisticated algorithms continuously analyze market trends to optimize your investment strategy.'
+    },
+    {
+      icon: FaGlobe,
+      title: 'Global Diversification',
+      text: 'Diversify your portfolio across global markets to maximize returns and minimize risk.'
+    },
+    {
+      icon: FaMobileAlt,
+      title: 'Mobile Access',
+      text: 'Manage your investments on the go with our intuitive mobile application.'
+    }
+  ];
+
+  // Check screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth <= 1024 && window.innerWidth > 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStats(prev => ({
+        portfolioValue: prev.portfolioValue + Math.random() * 1000000 - 500000,
+        activeUsers: prev.activeUsers + Math.random() * 100 - 50,
+        avgReturn: Math.max(5, prev.avgReturn + (Math.random() * 0.2 - 0.1)),
+        tradingVolume: prev.tradingVolume + Math.random() * 500000 - 250000
+      }));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const text = 'built with love for Indians who love to invest & trade';
+    const typeText = () => {
+      let i = 0;
+      setTypedText('');
+      const typingInterval = setInterval(() => {
+        setTypedText(text.slice(0, i + 1));
+        i++;
+        if (i === text.length) {
+          clearInterval(typingInterval);
+          setTimeout(() => {
+            typeText();
+          }, 1000);
+        }
+      }, 80);
+    };
+    typeText();
+    return () => clearInterval();
+  }, []);
+
+  const formatNumber = (num) => {
+    if (num >= 1000000000) return `$${(num / 1000000000).toFixed(1)}B`;
+    if (num >= 1000000) return `$${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `$${(num / 1000).toFixed(1)}K`;
+    return `$${num}`;
+  };
+
+  const handleGetStarted = () => {
+    document.getElementById('signup-section').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleLearnMore = () => {
+    document.getElementById('features-section').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, #0a0e17 0%, #1a2639 100%)',
+      color: '#e0e0e0',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '0',
+      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <style jsx>{`
+        @keyframes orbit-1 { from { transform: rotateZ(0deg); } to { transform: rotateZ(360deg); } }
+        @keyframes orbit-2 { from { transform: rotateZ(0deg); } to { transform: rotateZ(-360deg); } }
+        @keyframes orbit-3 { from { transform: rotateZ(0deg); } to { transform: rotateZ(360deg); } }
+        @keyframes orbit-4 { from { transform: rotateZ(0deg); } to { transform: rotateZ(-360deg); } }
+        @keyframes float { 0%,100%{transform:translateY(0px) rotateY(0deg);}50%{transform:translateY(-10px) rotateY(180deg);} }
+        @keyframes pulse { 0%,100%{opacity:0.3; transform:scale(1);}50%{opacity:0.6; transform:scale(1.1);} }
+        @keyframes glow { 0%,100%{box-shadow:0 0 10px rgba(76, 201, 240, 0.5);}50%{box-shadow:0 0 20px rgba(76, 201, 240, 0.8),0 0 30px rgba(76, 201, 240, 0.4);} }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        @keyframes heartbeat { 0% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.3); } 70% { transform: scale(1); } }
+      `}</style>
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: isMobile ? '0.8rem 1rem' : isTablet ? '1rem 2rem' : '1rem 3rem',
+        background: isScrolled ? 'rgba(10, 14, 23, 0.95)' : 'transparent',
+        backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+        borderBottom: isScrolled ? '1px solid rgba(76, 201, 240, 0.1)' : 'none',
+        zIndex: 1000,
+        transition: 'all 0.3s ease'
+      }}>
+        <h2 style={{
+          fontSize: isMobile ? '1.5rem' : isTablet ? '1.8rem' : '2rem',
+          color: '#e0e0e0',
+          lineHeight: '1.2',
+          margin: 0,
+          fontWeight: '800'
+        }}>
+          <span style={{ color: '#1e90ff' }}>VUNATHI</span> CAPITAL
+        </h2>
+        <nav style={{ display: 'flex', gap: isMobile ? '1rem' : '1.5rem', alignItems: 'center' }}>
+          <button
+            onClick={handleLogin}
+            style={{
+              background: 'linear-gradient(90deg, #4361ee, #4cc9f0)',
+              color: 'white',
+              border: 'none',
+              padding: isMobile ? '0.5rem 1rem' : '0.6rem 1.5rem',
+              borderRadius: '50px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'transform 0.3s, box-shadow 0.3s',
+              fontSize: isMobile ? '0.8rem' : '0.9rem'
+            }} onMouseOver={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 5px 15px rgba(67, 97, 238, 0.4)';
+            }} onMouseOut={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = 'none';
+            }}>
+            LOGIN
+          </button>
+        </nav>
+      </header>
+      <main style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        padding: isMobile ? '0 1rem' : '0 2rem',
+        marginTop: isMobile ? '6rem' : '8rem',
+        position: 'relative',
+        zIndex: 5
+      }}>
+        <section style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          width: '100%',
+          gap: isMobile ? '2rem' : '3rem',
+          marginBottom: isMobile ? '3rem' : '5rem',
+          padding: isMobile ? '1rem 0' : '2rem 0'
+        }}>
+          <div style={{
+            flex: '1',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            paddingRight: isMobile ? '0' : '2rem',
+            textAlign: isMobile ? 'center' : 'left'
+          }}>
+            <h2 style={{
+              fontSize: isMobile ? '2.5rem' : isTablet ? '3rem' : '3.5rem',
+              color: '#e0e0e0',
+              lineHeight: '1.2',
+              marginBottom: isMobile ? '1rem' : '1.5rem',
+              fontWeight: '800'
+            }}>
+              Smart <span style={{ color: '#1e90ff' }}>Investments</span> <span style={{ color: '#1e90ff' }}>Exceptional</span> Returns
+            </h2>
+            <p style={{
+              fontSize: isMobile ? '1rem' : isTablet ? '1.2rem' : '1.4rem',
+              color: '#a0a0b0',
+              margin: '0 0 2rem',
+              lineHeight: '1.6'
+            }}>
+              We strategically diversify your investments across carefully selected stocks and market indices,
+              maximizing returns while minimizing risk through our advanced algorithmic approach.
             </p>
-            <div className="flex space-x-4 sm:space-x-6 mt-4 sm:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
-                Terms of Service
-              </a>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+              <button onClick={handleGetStarted} style={{
+                background: 'linear-gradient(90deg, #2a5298, #1e90ff)',
+                color: 'white',
+                border: 'none',
+                padding: isMobile ? '0.5rem 1.2rem' : '0.6rem 1.5rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                fontWeight: '500',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 2px 5px rgba(30, 144, 255, 0.2)',
+                transition: 'transform 0.2s, box-shadow 0.2s'
+              }} onMouseOver={(e) => {
+                e.target.style.transform = 'translateY(-1px)';
+                e.target.style.boxShadow = '0 4px 10px rgba(30, 144, 255, 0.3)';
+              }} onMouseOut={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 2px 5px rgba(30, 144, 255, 0.2)';
+              }}>
+                GET STARTED
+              </button>
+              <button onClick={handleLearnMore} style={{
+                background: 'transparent',
+                color: '#1e90ff',
+                border: '2px solid #1e90ff',
+                padding: isMobile ? '0.5rem 1.2rem' : '0.6rem 1.5rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                fontWeight: '500',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }} onMouseOver={(e) => {
+                e.target.style.background = 'rgba(30, 144, 255, 0.1)';
+                e.target.style.transform = 'translateY(-1px)';
+              }} onMouseOut={(e) => {
+                e.target.style.background = 'transparent';
+                e.target.style.transform = 'translateY(0)';
+              }}>
+                LEARN MORE
+              </button>
             </div>
           </div>
-          <div className="mt-6 sm:mt-8 p-4 bg-gray-800/50 rounded-lg backdrop-blur-sm">
-            <p className="text-gray-400 text-xs text-center">
-              Vunathi Capital is a registered trademark. Investments in securities market are subject to market risks,
-              read all the related documents carefully before investing.
-            </p>
+          <div style={{
+            flex: '1',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            height: isMobile ? '300px' : '400px'
+          }}>
+            <div style={{
+              position: 'relative',
+              perspective: '1000px',
+              transformStyle: 'preserve-3d',
+              height: isMobile ? '300px' : '400px',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {[1, 2, 3, 4].map((ring, index) => {
+                const radius = isMobile ? (60 + (index * 40)) : (80 + (index * 60));
+                const duration = 15 + (index * 5);
+                const opacity = 0.8 - (index * 0.15);
+                return (
+                  <div
+                    key={ring}
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      border: '1px solid rgba(76, 201, 240, 0.4)',
+                      borderRadius: '50%',
+                      width: `${radius * 2}px`,
+                      height: `${radius * 2}px`,
+                      marginLeft: `-${radius}px`,
+                      marginTop: `-${radius}px`,
+                      opacity: opacity,
+                      animation: `orbit-${ring} ${duration}s linear infinite`,
+                      boxShadow: `0 0 20px rgba(6, 182, 212, ${opacity * 0.5}), inset 0 0 20px rgba(6, 182, 212, ${opacity * 0.3})`
+                    }}
+                  >
+                    {[0, 90, 180, 270].slice(0, ring).map((angle, dotIndex) => (
+                      <div key={dotIndex} style={{
+                        position: 'absolute',
+                        width: isMobile ? '6px' : '8px',
+                        height: isMobile ? '6px' : '8px',
+                        backgroundColor: '#1e90ff',
+                        borderRadius: '50%',
+                        top: '50%',
+                        left: '50%',
+                        transform: `rotate(${angle}deg) translateX(${radius}px) translateY(-50%)`,
+                        boxShadow: '0 0 10px rgba(76, 201, 240, 0.8)'
+                      }} />
+                    ))}
+                  </div>
+                );
+              })}
+              <div style={{
+                position: 'relative',
+                zIndex: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <div style={{
+                  width: isMobile ? '120px' : '160px',
+                  height: isMobile ? '120px' : '160px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  background: `radial-gradient(circle at 30% 30%, #f7931a20, #f7931a10, rgba(0,0,0,0.3))`,
+                  border: `2px solid #f7931a80`,
+                  boxShadow: `
+                    0 0 30px #f7931a60,
+                    0 0 60px #f7931a40,
+                    inset 0 0 20px #f7931a20
+                  `,
+                  animation: 'float 3s ease-in-out infinite'
+                }}>
+                  <img
+                    src="/Logo.png"
+                    alt="Vunathi Capital"
+                    style={{
+                      width: isMobile ? '60px' : '80px',
+                      height: isMobile ? '60px' : '80px',
+                      borderRadius: '50%',
+                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
+                    }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '20px',
+                    bottom: '20px',
+                    left: '20px',
+                    borderRadius: '50%',
+                    opacity: 0.3,
+                    background: `radial-gradient(circle, #f7931a, transparent 70%)`,
+                    animation: 'pulse 2s ease-in-out infinite'
+                  }} />
+                </div>
+                <div style={{ marginTop: isMobile ? '1.5rem' : '2rem', textAlign: 'center' }}>
+                  <h2 style={{ 
+                    fontSize: isMobile ? '1.5rem' : '2rem', 
+                    fontWeight: 'bold', 
+                    color: 'white', 
+                    marginBottom: '0.25rem' 
+                  }}>
+                    Algorithmic Excellence
+                  </h2>
+                  <p style={{ 
+                    color: '#a0a0b0', 
+                    fontSize: isMobile ? '0.9rem' : '1.1rem' 
+                  }}>
+                    AI-powered investment strategies
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </footer>
+        </section>
+        <section id="about" style={{
+          width: '100%',
+          marginBottom: isMobile ? '1.5rem' : '2rem',
+          padding: isMobile ? '1rem 0' : '2rem 0',
+        }}>
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: 'center',
+            gap: isMobile ? '2rem' : '4rem',
+          }}>
+            <motion.div
+              initial={{ opacity: 0, x: -50, rotateY: -10 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8 }}
+              style={{ 
+                flex: '1', 
+                display: 'flex', 
+                justifyContent: 'center',
+                order: isMobile ? 2 : 1
+              }}
+            >
+              <div style={{
+                position: 'relative',
+                width: isMobile ? '280px' : '380px',
+                height: isMobile ? '280px' : '380px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(30, 35, 50, 0.4)',
+                backdropFilter: 'blur(10px)',
+                border: '2px solid rgba(76, 201, 240, 0.3)',
+                boxShadow: '0 0 40px rgba(76, 201, 240, 0.2)'
+              }}>
+                <FaHandshake style={{
+                  color: 'rgba(76, 201, 240, 0.6)',
+                  fontSize: isMobile ? '6rem' : '8rem',
+                  position: 'absolute',
+                  transform: isMobile ? 'rotate(-12deg) translateX(30px) translateY(-30px)' : 'rotate(-12deg) translateX(40px) translateY(-40px)'
+                }} />
+                <FaUsers style={{
+                  color: 'rgba(76, 201, 240, 0.6)',
+                  fontSize: isMobile ? '5rem' : '7rem',
+                  position: 'absolute',
+                  transform: isMobile ? 'rotate(6deg) translateX(-30px) translateY(30px)' : 'rotate(6deg) translateX(-40px) translateY(40px)'
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  width: isMobile ? '150px' : '200px',
+                  height: isMobile ? '150px' : '200px',
+                  background: 'rgba(76, 201, 240, 0.15)',
+                  borderRadius: '50%',
+                  filter: 'blur(40px)'
+                }}></div>
+                <div style={{
+                  position: 'absolute',
+                  fontSize: isMobile ? '3rem' : '4rem',
+                  fontWeight: '800',
+                  color: '#e0e0e0',
+                  transform: 'rotate(3deg) translateX(20px)',
+                  textShadow: '0 5px 20px rgba(0,0,0,0.5)'
+                }}>TRUST</div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8 }}
+              style={{ 
+                flex: '1', 
+                textAlign: isMobile ? 'center' : 'left',
+                order: isMobile ? 1 : 2
+              }}
+            >
+              <h2 style={{
+                fontSize: isMobile ? '2.5rem' : isTablet ? '3rem' : '3.5rem',
+                color: '#e0e0e0',
+                lineHeight: '1.2',
+                marginBottom: isMobile ? '1rem' : '1.5rem',
+                fontWeight: '800'
+              }}>
+                Your <span style={{ color: '#1e90ff' }}>Trusted Partner</span> in Wealth Growth
+              </h2>
+              <p style={{
+                fontSize: isMobile ? '1rem' : '1.2rem',
+                color: '#a0a0b0',
+                lineHeight: '1.6',
+                marginBottom: isMobile ? '1rem' : '1.5rem'
+              }}>
+                At Vunathi Capital, we are dedicated to democratizing investment opportunities. Our mission is to empower individuals to achieve their financial goals through intelligent, diversified, and accessible investment solutions. We believe in transparency, technology, and putting our investors first.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+        <FeaturesSection featureCards={featureCards} />
+
+        <section style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          marginBottom: isMobile ? '1.5rem' : '2rem',
+          padding: isMobile ? '1rem 0' : '2rem 0'
+        }}>
+          <FaGraduationCap style={{ 
+            fontSize: isMobile ? '2.5rem' : '3rem', 
+            color: '#1e90ff', 
+            marginBottom: isMobile ? '0.8rem' : '1rem' 
+          }} />
+          <h2 style={{
+            fontSize: isMobile ? '2rem' : '2.5rem',
+            color: '#e0e0e0',
+            lineHeight: '1.2',
+            marginBottom: isMobile ? '0.8rem' : '1.5rem',
+            fontWeight: '900'
+          }}>
+          Finance  <span style={{ color: '#1e90ff' }}>simplified</span>,
+          </h2>
+          <h2 style={{
+            fontSize: isMobile ? '2rem' : '2.5rem',
+            color: '#e0e0e0',
+            lineHeight: '1.2',
+            marginBottom: isMobile ? '0.8rem' : '1.5rem',
+            fontWeight: '900'
+          }}>
+          in your <span style={{ color: '#1e90ff' }}>language</span>.
+          </h2>
+        </section>
+
+        <section style={{
+          width: '100%',
+          padding: isMobile ? '2rem 0' : '4rem 0',
+          margin: isMobile ? '2rem 0' : '4rem 0',
+        }}>
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+            gap: isMobile ? '1.5rem' : '2rem',
+            textAlign: 'center'
+          }}>
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                padding: isMobile ? '1.5rem' : '2.5rem',
+                borderRadius: '15px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                transform: 'scale(1)',
+                transition: 'transform 0.3s'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <FaShieldAlt style={{
+                fontSize: isMobile ? '2.5rem' : '3.5rem',
+                color: '#1e90ff',
+                margin: '0 auto 1rem',
+                display: 'block'
+              }} />
+              <h3 style={{
+                fontSize: isMobile ? '1.5rem' : '2rem',
+                fontWeight: '800',
+                color: '#e0e0e0',
+                marginBottom: isMobile ? '1rem' : '1.5rem'
+              }}>Our <span style={{ color: '#1e90ff' }}>Vision</span></h3>
+              <p style={{
+                fontSize: isMobile ? '0.95rem' : '1.1rem',
+                color: '#a0a0b0',
+                lineHeight: '1.6'
+              }}>
+                To empower investors with simple, transparent, and tech-driven wealth management, making sophisticated investing accessible to everyone.
+              </p>
+            </motion.div>
+
+            
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                padding: isMobile ? '1.5rem' : '2.5rem',
+                borderRadius: '15px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                transform: 'scale(1)',
+                transition: 'transform 0.3s'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <FaChartLine style={{
+                fontSize: isMobile ? '2.5rem' : '3.5rem',
+                color: '#1e90ff',
+                margin: '0 auto 1rem',
+                display: 'block'
+              }} />
+              <h3 style={{
+                fontSize: isMobile ? '1.5rem' : '2rem',
+                fontWeight: '800',
+                color: '#e0e0e0',
+                marginBottom: isMobile ? '1rem' : '1.5rem'
+              }}>Our <span style={{ color: '#1e90ff' }}>Mission</span></h3>
+              <p style={{
+                fontSize: isMobile ? '0.95rem' : '1.1rem',
+                color: '#a0a0b0',
+                lineHeight: '1.6'
+              }}>
+                To deliver long-term trust and sustainable returns with minimal complexity, fostering a community of informed and successful investors.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        
+        <section id="user-first-section" style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column-reverse' : 'row',
+          alignItems: 'center',
+          width: '100%',
+          gap: isMobile ? '3rem' : '6rem',
+          marginBottom: isMobile ? '3rem' : '5rem',
+          padding: isMobile ? '1rem 1.5rem' : '2rem 4rem',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <h2 style={{
+              fontSize: isMobile ? '2.5rem' : isTablet ? '3rem' : '3.5rem',
+              color: '#e0e0e0',
+              lineHeight: '1.2',
+              marginBottom: isMobile ? '0.8rem' : '1rem',
+              fontWeight: '800'
+            }}>
+              Always Keeping You <span style={{ color: '#1e90ff' }}>First</span>
+            </h2>
+            <p style={{
+              fontSize: isMobile ? '1rem' : '1.2rem',
+              color: '#a0a0b0',
+              marginBottom: isMobile ? '1.5rem' : '2.5rem',
+              lineHeight: '1.6'
+            }}>
+              Our users - traders & investors - will always be our priority, even when we're building new features or delivering customer support everyday.
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+              gap: isMobile ? '1rem' : '1.5rem',
+              marginBottom: isMobile ? '1.5rem' : '2.5rem',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: isMobile ? '1rem' : '1.5rem', 
+                alignItems: isMobile ? 'center' : 'flex-start',
+                marginBottom: isMobile ? '1rem' : '0'
+              }}>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                  <FaUserTie size={isMobile ? 20 : 24} style={{ color: '#1e90ff' }} />
+                  <span style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: '#a0a0b0' }}>No Relationship Managers</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                  <FaBan size={isMobile ? 20 : 24} style={{ color: '#1e90ff' }} />
+                  <span style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: '#a0a0b0' }}>No Spam</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                  <FaLock size={isMobile ? 20 : 24} style={{ color: '#1e90ff' }} />
+                  <span style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: '#a0a0b0' }}>No Data Sharing</span>
+                </motion.div>
+              </div>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: isMobile ? '1rem' : '1.5rem', 
+                alignItems: isMobile ? 'center' : 'flex-start', 
+                marginLeft: isMobile ? '0' : '2rem' 
+              }}>
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                  <FaPhoneSlash size={isMobile ? 20 : 24} style={{ color: '#1e90ff' }} />
+                  <span style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: '#a0a0b0' }}>No Calls</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                  <FaShieldAlt size={isMobile ? 20 : 24} style={{ color: '#1e90ff' }} />
+                  <span style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: '#a0a0b0' }}>No Unauthorized Access</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                  <FaCommentSlash size={isMobile ? 20 : 24} style={{ color: '#1e90ff' }} />
+                  <span style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: '#a0a0b0' }}>No SMS</span>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ type: 'spring', stiffness: 120, damping: 15 }}
+            style={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              height: isMobile ? '280px' : '400px',
+              maxWidth: isMobile ? '280px' : '400px',
+              overflow: 'hidden'
+            }}
+          >
+            <div className="animation-container" style={{
+              position: 'relative',
+              width: isMobile ? '220px' : '300px',
+              height: isMobile ? '220px' : '300px',
+              perspective: '1000px',
+              transformStyle: 'preserve-3d',
+              background: 'radial-gradient(circle, rgba(76, 201, 240, 0.1) 0%, transparent 70%)',
+              transform: isMobile ? 'translateX(-10px)' : 'translateX(-20px)'
+            }}>
+              <motion.div
+                animate={{
+                  rotateY: [0, 360],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{
+                  rotateY: { duration: 8, repeat: Infinity, ease: 'linear' },
+                  scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' }
+                }}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: isMobile ? '80px' : '120px',
+                  height: isMobile ? '80px' : '120px',
+                  background: 'linear-gradient(135deg, #4cc9f0, #4361ee)',
+                  borderRadius: '15px',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 30px rgba(76, 201, 240, 0.6)',
+                  zIndex: 10,
+                  animation: 'glow 3s ease-in-out infinite'
+                }}
+              >
+                <FaShieldAlt size={isMobile ? 32 : 48} style={{ color: 'white', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.5))' }} />
+              </motion.div>
+              {[0, 90, 180, 270].map((angle, index) => (
+                <motion.div
+                  key={index}
+                  animate={{
+                    rotateZ: [angle, angle + 360]
+                  }}
+                  transition={{
+                    duration: 10 + index * 2,
+                    repeat: Infinity,
+                    ease: 'linear'
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: isMobile ? '140px' : '180px',
+                    height: isMobile ? '140px' : '180px',
+                    transform: 'translate(-50%, -50%)',
+                    transformOrigin: 'center'
+                  }}
+                >
+                  <motion.div
+                    animate={{
+                      y: [-10, 10, -10],
+                      rotateX: [0, 15, 0]
+                    }}
+                    transition={{
+                      duration: 3 + index * 0.5,
+                      repeat: Infinity,
+                      ease: 'easeInOut'
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '0',
+                      left: '50%',
+                      width: isMobile ? '40px' : '50px',
+                      height: isMobile ? '40px' : '50px',
+                      background: 'linear-gradient(135deg, rgba(76, 201, 240, 0.2), rgba(67, 97, 238, 0.2))',
+                      borderRadius: '10px',
+                      transform: 'translateX(-50%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '1px solid rgba(76, 201, 240, 0.3)',
+                      backdropFilter: 'blur(8px)',
+                      boxShadow: '0 5px 15px rgba(76, 201, 240, 0.3)'
+                    }}
+                  >
+                    {[FaPhoneSlash, FaCommentSlash, FaBan, FaUserTie][index] &&
+                      React.createElement([FaPhoneSlash, FaCommentSlash, FaBan, FaUserTie][index], {
+                        size: isMobile ? 16 : 20,
+                        style: { color: '#1e90ff', filter: 'drop-shadow(0 0 4px rgba(76, 201, 240, 0.5))' }
+                      })}
+                  </motion.div>
+                </motion.div>
+              ))}
+              {Array.from({ length: 8 }).map((_, index) => (
+                <motion.div
+                  key={`particle-${index}`}
+                  animate={{
+                    x: [0, Math.sin(index * 0.8) * (isMobile ? 60 : 80), 0],
+                    y: [0, Math.cos(index * 0.8) * (isMobile ? 60 : 80), 0],
+                    opacity: [0.3, 0.8, 0.3],
+                    scale: [0.8, 1.5, 0.8]
+                  }}
+                  transition={{
+                    duration: 4 + index * 0.3,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: index * 0.2
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: `${30 + (index * 8)}%`,
+                    left: `${30 + (index * 8)}%`,
+                    width: isMobile ? '4px' : '6px',
+                    height: isMobile ? '4px' : '6px',
+                    borderRadius: '50%',
+                    background: '#1e90ff',
+                    boxShadow: '0 0 8px rgba(76, 201, 240, 0.8)',
+                    zIndex: 5
+                  }}
+                />
+              ))}
+              {[1, 2].map((ring, index) => (
+                <motion.div
+                  key={`ring-${index}`}
+                  animate={{
+                    rotateX: [0, 360],
+                    opacity: [0.4, 0.7, 0.4]
+                  }}
+                  transition={{
+                    rotateX: { duration: 6 + index * 2, repeat: Infinity, ease: 'linear' },
+                    opacity: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: `${isMobile ? 80 + index * 30 : 120 + index * 40}px`,
+                    height: `${isMobile ? 80 + index * 30 : 120 + index * 40}px`,
+                    border: '1px solid rgba(76, 201, 240, 0.3)',
+                    borderRadius: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    boxShadow: '0 0 15px rgba(76, 201, 240, 0.2)'
+                  }}
+                />
+              ))}
+              {['SECURE', 'TRUST', 'SUCCESS'].map((text, index) => (
+                <motion.div
+                  key={text}
+                  animate={{
+                    rotateZ: [0, 360],
+                    scale: [0.8, 1.1, 0.8]
+                  }}
+                  transition={{
+                    rotateZ: { duration: 12 + index * 4, repeat: Infinity, ease: 'linear' },
+                    scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: isMobile ? '160px' : '200px',
+                    height: isMobile ? '160px' : '200px',
+                    transform: 'translate(-50%, -50%)',
+                    transformOrigin: 'center'
+                  }}
+                >
+                  <div style={{
+                    position: 'absolute',
+                    top: `${index * 50}%`,
+                    left: '100%',
+                    transform: 'translateX(-50%)',
+                    fontSize: isMobile ? '0.7rem' : '0.9rem',
+                    fontWeight: '600',
+                    color: '#1e90ff',
+                    textShadow: '0 0 8px rgba(76, 201, 240, 0.5)',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {text}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+        <section id="signup-section" style={{
+          width: '100%',
+          padding: isMobile ? '2rem 1rem' : '4rem',
+          margin: isMobile ? '2rem 0' : '4rem 0',
+          textAlign: 'center',
+          border: 'none'
+        }}>
+          <h2 style={{
+            fontSize: isMobile ? '2.5rem' : isTablet ? '3rem' : '3.5rem',
+            color: '#e0e0e0',
+            lineHeight: '1.2',
+            marginBottom: isMobile ? '1rem' : '1.5rem',
+            fontWeight: '800'
+          }}>
+            Ready to<span style={{ color: '#1e90ff' }}> Grow Your</span> Wealth ?
+          </h2>
+          <p style={{
+            fontSize: isMobile ? '1rem' : '1.3rem',
+            color: '#a0a0b0',
+            marginBottom: isMobile ? '1.5rem' : '2.5rem',
+            maxWidth: '800px',
+            margin: '0 auto 2.5rem',
+            lineHeight: '1.6'
+          }}>
+            Join thousands of investors who trust Vunathi Capital with their financial future.
+            Start your journey to financial freedom today.
+          </p>
+          <button style={{
+            background: 'linear-gradient(90deg, #2a5298, #1e90ff)',
+            color: 'white',
+            border: 'none',
+            padding: isMobile ? '0.7rem 1.5rem' : '0.8rem 2rem',
+            fontSize: isMobile ? '1rem' : '1.1rem',
+            fontWeight: '500',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 0 10px rgba(76, 201, 240, 0.15)',
+            transition: 'transform 0.2s, box-shadow 0.2s'
+          }} onClick={handleLogin} onMouseOver={(e) => {
+            e.target.style.transform = 'translateY(-1px)';
+            e.target.style.boxShadow = '0 4px 10px rgba(30, 144, 255, 0.3)';
+          }} onMouseOut={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 2px 5px rgba(30, 144, 255, 0.2)';
+          }}>
+            START INVESTING NOW
+          </button>
+        </section>
+        <section style={{
+          width: '100%',
+          padding: isMobile ? '2rem 0' : '4rem 0',
+          overflow: 'hidden',
+          position: 'relative',
+          margin: isMobile ? '3rem 0' : '5rem 0',
+          isolation: 'isolate'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: `
+              radial-gradient(circle at 15% 50%, rgba(30, 144, 255, 0.08) 0%, transparent 30%),
+              radial-gradient(circle at 85% 70%, rgba(76, 201, 240, 0.05) 0%, transparent 30%)
+            `,
+            zIndex: -1
+          }}></div>
+          <motion.div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: '-100%',
+              width: '50%',
+              height: '100%',
+              background: 'linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.1), transparent)',
+              zIndex: 0
+            }}
+            animate={{ left: '200%' }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: isMobile ? '80px' : '180px',
+            height: '100%',
+            background: 'linear-gradient(90deg, rgba(10, 14, 23, 0.98) 0%, rgba(10, 14, 23, 0) 100%)',
+            zIndex: 3
+          }}></div>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: isMobile ? '80px' : '180px',
+            height: '100%',
+            background: 'linear-gradient(270deg, rgba(10, 14, 23, 0.98) 0%, rgba(10, 14, 23, 0) 100%)',
+            zIndex: 3
+          }}></div>
+          <div style={{
+            textAlign: 'center',
+            marginBottom: isMobile ? '2rem' : '3rem',
+            position: 'relative',
+            zIndex: 2
+          }}>
+            <h2 style={{
+              fontSize: isMobile ? '1.5rem' : '2rem',
+              fontWeight: '900',
+              color: '#e0e0e0',
+              marginBottom: '0.5rem',
+              letterSpacing: '0.05em'
+            }}>
+              WHY INVESTORS <span style={{ color: '#1e90ff' }}>CHOOSE</span> VUNATHI CAPITAL
+            </h2>
+            <div style={{
+              width: '80px',
+              height: '3px',
+              background: 'linear-gradient(90deg, #1e90ff, #4cc9f0)',
+              margin: '0 auto',
+              borderRadius: '3px'
+            }}></div>
+          </div>
+          <div style={{
+            display: 'flex',
+            width: '100%',
+            overflow: 'hidden',
+            position: 'relative',
+            padding: '1rem 0',
+            zIndex: 2
+          }}>
+            <motion.div
+              style={{
+                display: 'flex',
+                flexShrink: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{
+                duration: 40,
+                repeat: Infinity,
+                ease: 'linear'
+              }}
+            >
+              {[
+                { icon: FaShieldAlt, title: 'Bank-Level Security', description: 'Your investments are protected' },
+                { icon: FaChartLine, title: 'Consistent Returns', description: 'Proven performance track record' },
+                { icon: FaRobot, title: 'AI-Powered Algorithms', description: 'Smart investment technology' },
+                { icon: FaGlobe, title: 'Global Diversification', description: 'Access to worldwide markets' },
+                { icon: FaLock, title: 'Zero Data Sharing', description: 'Your privacy is guaranteed' },
+                { icon: FaUsers, title: 'Trusted Community', description: 'Join thousands of satisfied investors' },
+                { icon: FaLightbulb, title: 'Smart Insights', description: 'Expert analysis and recommendations' },
+                { icon: FaMobileAlt, title: 'Mobile Access', description: 'Manage investments anywhere' }
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: 'rgba(30, 35, 50, 0.4)',
+                    padding: isMobile ? '1rem 1.5rem' : '1.2rem 2rem',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(76, 201, 240, 0.15)',
+                    margin: isMobile ? '0 1rem' : '0 1.5rem',
+                    cursor: 'default',
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    minWidth: isMobile ? '280px' : '320px',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <div style={{
+                    width: isMobile ? '36px' : '42px',
+                    height: isMobile ? '36px' : '42px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, rgba(30, 144, 255, 0.15), rgba(76, 201, 240, 0.15))',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: isMobile ? '1rem' : '1.2rem',
+                    flexShrink: 0
+                  }}>
+                    <item.icon style={{ color: '#1e90ff', fontSize: isMobile ? '1.2rem' : '1.4rem' }} />
+                  </div>
+                  <div>
+                    <div style={{
+                      fontSize: isMobile ? '1rem' : '1.1rem',
+                      fontWeight: '600',
+                      color: '#e0e0e0',
+                      marginBottom: '0.2rem'
+                    }}>
+                      {item.title}
+                    </div>
+                    <div style={{
+                      fontSize: isMobile ? '0.8rem' : '0.9rem',
+                      color: '#a0a0b0'
+                    }}>
+                      {item.description}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: isMobile ? '1.5rem' : '3rem',
+              marginTop: isMobile ? '2.5rem' : '3.5rem',
+              position: 'relative',
+              zIndex: 2,
+              flexWrap: 'wrap'
+            }}
+          >
+            {[
+              {
+                icon: FaHandshake,
+                title: 'Trusted Partner',
+                description: 'Your success is our priority'
+              },
+              {
+                icon: FaGraduationCap,
+                title: 'Expert Guidance',
+                description: 'Learn as you invest'
+              },
+              {
+                icon: FaShieldAlt,
+                title: 'Peace of Mind',
+                description: 'Invest with confidence'
+              }
+            ].map((benefit, idx) => (
+              <div key={idx} style={{
+                textAlign: 'center',
+                padding: isMobile ? '1.2rem 1.5rem' : '1.5rem 2rem',
+                background: 'rgba(30, 35, 50, 0.4)',
+                borderRadius: '16px',
+                border: '1px solid rgba(76, 201, 240, 0.15)',
+                backdropFilter: 'blur(8px)',
+                maxWidth: isMobile ? '220px' : '260px',
+                minHeight: isMobile ? '160px' : '180px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <benefit.icon style={{
+                  color: '#1e90ff',
+                  fontSize: isMobile ? '1.8rem' : '2.2rem',
+                  marginBottom: isMobile ? '0.8rem' : '1rem',
+                  filter: 'drop-shadow(0 0 8px rgba(76, 201, 240, 0.3))'
+                }} />
+                <div style={{
+                  fontSize: isMobile ? '1.1rem' : '1.3rem',
+                  fontWeight: '600',
+                  color: '#e0e0e0',
+                  marginBottom: isMobile ? '0.6rem' : '0.8rem'
+                }}>
+                  {benefit.title}
+                </div>
+                <div style={{
+                  fontSize: isMobile ? '0.9rem' : '1rem',
+                  color: '#a0a0b0',
+                  lineHeight: '1.4'
+                }}>
+                  {benefit.description}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </section>
+        <footer style={{
+          marginTop: isMobile ? '2rem' : '4rem',
+          textAlign: 'center',
+          color: '#a0a0b0',
+          padding: isMobile ? '2rem 1rem' : '3rem',
+          width: '100%',
+        }}>
+          <div style={{
+            color: '#e0e0e0',
+            padding: isMobile ? '0.6rem 1rem' : '0.8rem 1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: isMobile ? '0.9rem' : '1.1rem',
+            fontWeight: '500',
+            margin: '0 auto 2rem',
+            maxWidth: isMobile ? '320px' : '600px'
+          }}>
+            <span style={{
+              color: '#ff1493',
+              marginRight: '0.6rem',
+              fontSize: isMobile ? '1.1rem' : '1.3rem',
+              animation: 'heartbeat 1.5s ease-in-out infinite'
+            }}>❤️</span>
+            {typedText}
+            <span style={{
+              marginLeft: '0.2rem',
+              animation: 'blink 1s step-end infinite',
+              color: '#1e90ff'
+            }}>|</span>
+          </div>
+          <div style={{ marginBottom: isMobile ? '1rem' : '1.5rem' }}>
+            <h2 style={{
+              fontSize: isMobile ? '1.8rem' : '2rem',
+              color: '#e0e0e0',
+              lineHeight: '1.2',
+              marginBottom: isMobile ? '1rem' : '1.5rem',
+              fontWeight: '800'
+            }}>
+              <span style={{ color: '#1e90ff' }}>VUNATHI</span> CAPITAL
+            </h2>
+          </div>
+          <p style={{ fontSize: isMobile ? '0.9rem' : '1rem' }}>© 2025 Vunathi Capital. All rights reserved.</p>
+          <p style={{ fontSize: isMobile ? '0.9rem' : '1rem', marginTop: '0.5rem' }}>Financial investing involves risk, including the possible loss of principal.</p>
+        </footer>
+      </main>
     </div>
   );
 };
 
-export default Web;
+export default VunathiCapital;

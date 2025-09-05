@@ -1,8 +1,11 @@
 
 
+          //new one
+
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { TrendingUp, Shield, PieChart, DollarSign, ArrowRight, Zap, Globe, BarChart3, Star } from "lucide-react";
+import { TrendingUp, Shield, PieChart, DollarSign, ArrowRight, Zap, Star, BarChart3 } from "lucide-react";
 
 export default function HomePage({ wallet, accessTokenTimestamp }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -54,11 +57,25 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
     }
   ];
 
-  const stats = [
-    { label: "Active Traders", value: "2.5M+", icon: <Globe size={20} /> },
-    { label: "Daily Volume", value: "$50B+", icon: <BarChart3 size={20} /> },
-    { label: "Success Rate", value: "94.7%", icon: <Star size={20} /> },
-    { label: "Countries", value: "180+", icon: <TrendingUp size={20} /> }
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "Professional Trader",
+      quote: "This platform's AI insights have transformed my trading strategy. It's like having a personal analyst 24/7!",
+      rating: 5
+    },
+    {
+      name: "Michael Chen",
+      role: "Portfolio Manager",
+      quote: "The security features give me peace of mind, and the execution speed is unmatched. Highly recommend!",
+      rating: 4
+    },
+    {
+      name: "Emma Rodriguez",
+      role: "Retail Investor",
+      quote: "The intuitive interface and smart portfolio tools made investing accessible and profitable for me.",
+      rating: 5
+    }
   ];
 
   return (
@@ -120,19 +137,6 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
               <span>Account Details</span>
             </button>
           </div>
-
-          {/* Stats Row */}
-          <div className="stats-row">
-            {stats.map((stat, index) => (
-              <div key={index} className="stat-item">
-                <div className="stat-icon">{stat.icon}</div>
-                <div className="stat-content">
-                  <div className="stat-value">{stat.value}</div>
-                  <div className="stat-label">{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* 3D Trading Dashboard Mockup */}
@@ -159,15 +163,7 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
 
               <div className="data-panels">
                 <div className="data-panel">
-                  <div className="panel-title">Portfolio</div>
-                  <div className="panel-value">$124,567</div>
-                  <div className="panel-change positive">+12.4%</div>
-                </div>
-                <div className="data-panel">
-                  <div className="panel-title">P&L Today</div>
-                  <div className="panel-value">$3,421</div>
-                  <div className="panel-change positive">+2.8%</div>
-                </div>
+                </div> 
               </div>
             </div>
           </div>
@@ -214,52 +210,58 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
         </div>
       </section>
 
-      {/* Market Overview */}
-      <section className="market-section">
-        <div className="market-container">
-          <div className="market-header">
-            <h3 className="market-title">Live Market Pulse</h3>
-            <div className="live-indicator">
-              <div className="pulse-dot" />
-              <span>Live</span>
-            </div>
-          </div>
-
-          <div className="market-grid">
-            <div className="market-item bullish">
-              <div className="market-name">NIFTY 50</div>
-              <div className="market-price">19,425.35</div>
-              <div className="market-change">+247.5 (+1.29%)</div>
-              <div className="market-chart">
-                <div className="mini-chart bullish-chart" />
-              </div>
-            </div>
-
-            <div className="market-item bearish">
-              <div className="market-name">SENSEX</div>
-              <div className="market-price">64,718.56</div>
-              <div className="market-change">-281.2 (-0.43%)</div>
-              <div className="market-chart">
-                <div className="mini-chart bearish-chart" />
-              </div>
-            </div>
-
-            <div className="market-item bullish">
-              <div className="market-name">NIFTY BANK</div>
-              <div className="market-price">43,891.20</div>
-              <div className="market-change">+921.8 (+2.15%)</div>
-              <div className="market-chart">
-                <div className="mini-chart bullish-chart" />
-              </div>
-            </div>
-          </div>
-
-          <button className="explore-btn" onClick={() => navigate("/trades")}>
-            <span>Explore All Markets</span>
-            <ArrowRight size={16} />
+      {/* Call-to-Action Section */}
+      <section className="cta-section">
+        <div className="cta-container">
+          <h2 className="cta-title">
+            Ready to <span className="gradient-text">Transform</span> Your Trading?
+          </h2>
+          <p className="cta-subtitle">
+            Join thousands of traders who are leveraging our AI-powered platform to achieve their financial goals.
+          </p>
+          <button 
+            className="cta-btn"
+            onClick={() => navigate("/signup")}
+          >
+            <span>Get Started Now</span>
+            <ArrowRight size={18} />
+            <div className="btn-shine" />
           </button>
         </div>
       </section>
+
+      {/* Testimonials Section
+      <section className="testimonials-section">
+        <div className="section-header">
+          <h2 className="section-title">
+            What Our <span className="gradient-text">Traders</span> Say
+          </h2>
+          <p className="section-subtitle">
+            Hear from traders who have transformed their strategies with our platform
+          </p>
+        </div>
+
+        <div className="testimonials-grid">
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="testimonial-card">
+              <div className="card-background" />
+              <div className="card-content">
+                <div className="rating-stars">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} size={20} className="text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="testimonial-quote">"{testimonial.quote}"</p>
+                <div className="testimonial-author">
+                  <span className="author-name">{testimonial.name}</span>
+                  <span className="author-role">{testimonial.role}</span>
+                </div>
+              </div>
+              <div className="card-hover-effect" />
+            </div>
+          ))}
+        </div>
+      </section> */}
 
       <style jsx>{`
         .homepage-container {
@@ -480,41 +482,6 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           transform: translateY(-2px);
         }
 
-        .stats-row {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-          gap: 2rem;
-        }
-
-        .stat-item {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-        }
-
-        .stat-icon {
-          width: 40px;
-          height: 40px;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #3b82f6;
-        }
-
-        .stat-value {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: white;
-        }
-
-        .stat-label {
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.6);
-        }
-
         .hero-visual {
           flex: 1;
           position: relative;
@@ -624,27 +591,6 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           background: rgba(255, 255, 255, 0.05);
           border-radius: 8px;
           padding: 1rem;
-        }
-
-        .panel-title {
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.6);
-          margin-bottom: 0.5rem;
-        }
-
-        .panel-value {
-          font-size: 1.2rem;
-          font-weight: 700;
-          margin-bottom: 0.25rem;
-        }
-
-        .panel-change {
-          font-size: 0.8rem;
-          font-weight: 600;
-        }
-
-        .panel-change.positive {
-          color: #10b981;
         }
 
         .floating-element {
@@ -788,7 +734,7 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           left: 100%;
         }
 
-        .market-section {
+        .cta-section {
           padding: 4rem 2rem 8rem;
           max-width: 1000px;
           margin: 0 auto;
@@ -796,133 +742,148 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           z-index: 1;
         }
 
-        .market-container {
+        .cta-container {
           background: rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 24px;
           padding: 3rem;
+          text-align: center;
         }
 
-        .market-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 2rem;
+        .cta-title {
+          font-size: clamp(1.8rem, 3vw, 2.5rem);
+          font-weight: 800;
+          margin-bottom: 1.5rem;
+          line-height: 1.2;
         }
 
-        .market-title {
-          font-size: 1.5rem;
-          font-weight: 700;
+        .cta-subtitle {
+          font-size: 1.1rem;
+          color: rgba(255, 255, 255, 0.7);
+          max-width: 600px;
+          margin: 0 auto 2rem;
         }
 
-        .live-indicator {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: #10b981;
-          font-weight: 600;
-        }
-
-        .pulse-dot {
-          width: 8px;
-          height: 8px;
-          background: #10b981;
-          border-radius: 50%;
-          animation: pulse 2s ease-in-out infinite;
-        }
-
-        .market-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
-          margin-bottom: 2rem;
-        }
-
-        .market-item {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          padding: 1.5rem;
-          transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .market-item:hover {
-          transform: translateY(-5px);
-          background: rgba(255, 255, 255, 0.08);
-        }
-
-        .market-item.bullish {
-          border-left: 4px solid #10b981;
-        }
-
-        .market-item.bearish {
-          border-left: 4px solid #ef4444;
-        }
-
-        .market-name {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.6);
-          margin-bottom: 0.5rem;
-        }
-
-        .market-price {
-          font-size: 1.4rem;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-        }
-
-        .market-change {
-          font-size: 0.9rem;
-          font-weight: 600;
-        }
-
-        .bullish .market-change {
-          color: #10b981;
-        }
-
-        .bearish .market-change {
-          color: #ef4444;
-        }
-
-        .market-chart {
-          margin-top: 1rem;
-          height: 30px;
-        }
-
-        .mini-chart {
-          width: 100%;
-          height: 100%;
-          border-radius: 4px;
-        }
-
-        .bullish-chart {
-          background: linear-gradient(45deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.05));
-        }
-
-        .bearish-chart {
-          background: linear-gradient(45deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.05));
-        }
-
-        .explore-btn {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: transparent;
-          color: #3b82f6;
-          border: 1px solid #3b82f6;
-          padding: 0.75rem 1.5rem;
+        .cta-btn {
+          position: relative;
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+          color: white;
+          border: none;
+          padding: 1rem 2rem;
           border-radius: 12px;
           font-weight: 600;
+          font-size: 1.1rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
           cursor: pointer;
           transition: all 0.3s ease;
-          margin: 0 auto;
+          overflow: hidden;
         }
 
-        .explore-btn:hover {
-          background: #3b82f6;
-          color: white;
+        .cta-btn:hover {
           transform: translateY(-2px);
+          box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .cta-btn .btn-shine {
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.6s ease;
+        }
+
+        .cta-btn:hover .btn-shine {
+          left: 100%;
+        }
+
+        .testimonials-section {
+          padding: 4rem 2rem 8rem;
+          max-width: 1400px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 1;
+        }
+
+        .testimonials-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .testimonial-card {
+          position: relative;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          padding: 2rem;
+          transition: all 0.4s ease;
+          overflow: hidden;
+        }
+
+        .testimonial-card:hover {
+          transform: translateY(-10px);
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .testimonial-card .card-background {
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .testimonial-card:hover .card-background {
+          opacity: 1;
+        }
+
+        .rating-stars {
+          display: flex;
+          gap: 0.25rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .testimonial-quote {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.9);
+          margin-bottom: 1.5rem;
+          font-style: italic;
+        }
+
+        .testimonial-author {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .author-name {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: white;
+        }
+
+        .author-role {
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .testimonial-card .card-hover-effect {
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          transition: left 0.6s ease;
+        }
+
+        .testimonial-card:hover .card-hover-effect {
+          left: 100%;
         }
 
         /* Animations */
@@ -973,11 +934,6 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           50% { transform: translateY(-20px) rotate(5deg); }
         }
 
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.7; transform: scale(1.2); }
-        }
-
         /* Responsive Design */
         @media (max-width: 1024px) {
           .hero-section {
@@ -995,6 +951,10 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           .dashboard-mockup {
             height: 250px;
           }
+
+          .cta-section {
+            padding: 2rem 1rem;
+          }
         }
 
         @media (max-width: 768px) {
@@ -1007,25 +967,21 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
             align-items: center;
           }
 
-          .primary-btn, .secondary-btn {
+          .primary-btn, .secondary-btn, .cta-btn {
             width: 100%;
             max-width: 280px;
             justify-content: center;
-          }
-
-          .stats-row {
-            grid-template-columns: repeat(2, 1fr);
           }
 
           .features-grid {
             grid-template-columns: 1fr;
           }
 
-          .market-grid {
+          .testimonials-grid {
             grid-template-columns: 1fr;
           }
 
-          .market-container {
+          .cta-container {
             padding: 2rem;
           }
         }
@@ -1039,7 +995,11 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
             padding: 4rem 1rem;
           }
 
-          .market-section {
+          .cta-section {
+            padding: 2rem 1rem 4rem;
+          }
+
+          .testimonials-section {
             padding: 2rem 1rem 4rem;
           }
 
@@ -1048,6 +1008,14 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
           }
 
           .hero-subtitle {
+            font-size: 1rem;
+          }
+
+          .cta-title {
+            font-size: 1.5rem;
+          }
+
+          .cta-subtitle {
             font-size: 1rem;
           }
         }
@@ -1069,37 +1037,6 @@ export default function HomePage({ wallet, accessTokenTimestamp }) {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
