@@ -277,7 +277,7 @@ export default function Navbar() {
             border-radius: 3px;
           }
           .logout-button {
-            margin-left: auto;
+            margin-left: 7px;
             color: #fca5a5;
           }
           .logout-button:hover {
